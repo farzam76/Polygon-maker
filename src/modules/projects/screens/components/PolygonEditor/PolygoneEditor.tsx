@@ -12,13 +12,14 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
   onDeletePolygon,
   editVertices,
 }) => {
+  console.log("%c Polygon editor", "color: red; font-weight: bold;");
+
   return (
     <div className="scene">
-      {polygons.map((polygon, index) => (
+      {polygons.map((polygon) => (
         <Polygon
           editVertices={editVertices}
           key={polygon.id}
-          index={index}
           {...polygon}
           onDelete={() => onDeletePolygon(polygon.id)}
         />

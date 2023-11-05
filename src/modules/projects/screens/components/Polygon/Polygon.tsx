@@ -1,44 +1,48 @@
-import React, { useState } from "react";
-import Draggable from "react-draggable"; // The default
+import React, { MouseEventHandler, useCallback, useState } from "react";
+import Draggable, { DraggableData, DraggableEvent } from "react-draggable"; // The default
 import "./styles.css";
+
 interface DraggablePolygonProps {
   id: string;
-  index: number;
   sides: number;
   onDelete: (id: string) => void;
-  vertices: Vertex[]; // Array of vertex coordinates
+  vertices: Vertex[];
   editVertices: (id: string, vertices: Vertex, index: number) => void;
 }
+
+interface DndEvent {
+  e: DraggableEvent;
+  data: DraggableData;
+  id: string;
+}
 //TODO: make a seprate draggable polygon component
-export const Polygon: React.FC<DraggablePolygonProps> = ({
+const PolygonComponent: React.FC<DraggablePolygonProps> = ({
   id,
-  index,
   onDelete,
   vertices,
   editVertices,
 }) => {
+  console.log("%c Polygon", "color: red; font-weight: bold;");
   const [isEditing, setIsEditing] = useState(false);
-  const onDrag = (e, data, vertexIndex) => {
+  const onMove = ({ e, data, id: vertexId }: DndEvent) => {
     e.stopPropagation();
-    console.log(data, e, vertexIndex);
-    editVertices(
-      id,
-      { x: data.x, y: data.y, id: vertices[vertexIndex].id },
-      vertexIndex,
-    );
-    setIsEditing(true);
+    const { x, y } = data;
+    const index = vertices.findIndex((vertex) => vertex.id === vertexId);
+    const updatedVertices = { ...vertices[index], x, y };
+    editVertices(id, updatedVertices, index);
   };
-  const onStop = (e, data) => {
-    e.stopPropagation();
-    console.log(data, e);
+  const onDrag = useCallback((payload: DndEvent) => {
+    onMove(payload);
+    setIsEditing(true);
+  }, []);
+  const onStop = useCallback((payload: DndEvent) => {
+    onMove(payload);
     setIsEditing(false);
-  };
-  const onStart = (e, data) => {
-    e.stopPropagation();
-    console.log(data, e);
+  }, []);
+  const onStart = useCallback((payload: DndEvent) => {
+    onMove(payload);
     setIsEditing(true);
-  };
-
+  }, []);
   return (
     <Draggable
       disabled={isEditing}
@@ -56,15 +60,19 @@ export const Polygon: React.FC<DraggablePolygonProps> = ({
               .join(" ")}
             fill="lightblue"
           />{" "}
-          {vertices.map((vertex, index) => (
+          {vertices.map((vertex) => (
             <Draggable
               defaultClassName="anchor-point"
-              key={index}
+              key={vertex.id}
               onDrag={(e, data) => {
-                onDrag(e, data, index);
+                onDrag({ e, data, id:vertex.id });
               }}
-              onStart={onStart}
-              onStop={onStop}
+              onStart={(e, data) => {
+                onStart({ e, data, id:vertex.id });
+              }}
+              onStop={(e, data) => {
+                onStop({ e, data, id:vertex.id });
+              }}
             >
               <circle
                 className="anchor"
@@ -81,3 +89,5 @@ export const Polygon: React.FC<DraggablePolygonProps> = ({
     </Draggable>
   );
 };
+
+export const Polygon = React.memo(PolygonComponent);

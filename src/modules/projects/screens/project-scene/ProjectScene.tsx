@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { PolygonMaker, PolygonEditor } from "../components";
 import { genUniqueId } from "utils";
 
@@ -20,6 +20,7 @@ const calculatePolygonVertices = (sides: number, x: number, y: number) => {
 export const ProjectScene = () => {
   const [polygons, setPolygons] = useState<Polygon[]>([]);
   const [polygonIdCounter, setPolygonIdCounter] = useState(0);
+  console.log("%c Polygon scene", "color: red; font-weight: bold;");
 
   const handleCreatePolygon = (sides: number) => {
     const newPolygon: Polygon = {
@@ -31,33 +32,28 @@ export const ProjectScene = () => {
     setPolygonIdCounter(polygonIdCounter + 1);
   };
 
-  const handleMovePolygon = (result) => {
-    console.log(result);
-    if (!result.destination) return;
-
-    const { source, destination } = result;
-
-    if (source.index === destination.index) return;
-
-    setPolygons((prevPolygons) => {
-      const polygonIndex = prevPolygons.findIndex(
-        (polygon) => polygon.id === result.draggableId,
-      );
-      const updatedPolygon = {
-        ...prevPolygons[polygonIndex],
-        position: destination.index,
-      };
-      const updatedPolygons = [...prevPolygons];
-      updatedPolygons.splice(polygonIndex, 1, updatedPolygon);
-      return updatedPolygons;
-    });
-  };
-
-  const handleDeletePolygon = (id: string) => {
+  const handleDeletePolygon = useCallback((id: string) => {
     setPolygons((prevPolygons) =>
       prevPolygons.filter((polygon) => polygon.id !== id),
     );
-  };
+  }, []);
+
+  const editVertices = useCallback(
+    (id: string, vertices: Vertex, vertexid: number) => {
+        setPolygons((prevPolygons) =>
+            prevPolygons.map((polygon) => {
+            if (polygon.id === id) {
+                const updatedVertices = [...polygon.vertices];
+                updatedVertices[vertexid] = vertices;
+                return { ...polygon, vertices: updatedVertices };
+            }
+            return polygon;
+            }),
+        );
+        
+    },
+    [],
+  );
 
   return (
     <div className="container">
@@ -66,27 +62,7 @@ export const ProjectScene = () => {
           <div style={{ height: "100%" }}>
             <PolygonMaker onCreatePolygon={handleCreatePolygon} />
             <PolygonEditor
-              editVertices={(id, vertices, index) => {
-                setPolygons((prevPolygons) => {
-                  const polygonIndex = prevPolygons.findIndex(
-                    (polygon) => polygon.id === id,
-                  );
-                  const updatedPolygon = {
-                    ...prevPolygons[polygonIndex],
-                    vertices: prevPolygons[polygonIndex].vertices.map(
-                      (vertex, vertexIndex) => {
-                        if (vertexIndex === index) {
-                          return vertices;
-                        }
-                        return vertex;
-                      },
-                    ),
-                  };
-                  const updatedPolygons = [...prevPolygons];
-                  updatedPolygons.splice(polygonIndex, 1, updatedPolygon);
-                  return updatedPolygons;
-                });
-              }}
+              editVertices={editVertices}
               polygons={polygons}
               onDeletePolygon={handleDeletePolygon}
             />
