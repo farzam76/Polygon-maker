@@ -1,0 +1,1 @@
+export { PolygonCard } from "./PolygonCard"

@@ -6,6 +6,12 @@ import eslint from "vite-plugin-eslint";
 
 // https://vitejs.dev/config https://vitest.dev/config
 export default defineConfig({
+  resolve:{
+    alias: {
+      "react/jsx-runtime.js": "react/jsx-runtime",
+      "react/jsx-dev-runtime.js": "react/jsx-dev-runtime",
+    },
+  },
   plugins: [react(), tsconfigPaths(), eslint()],
   test: {
     globals: true,
@@ -13,4 +19,5 @@ export default defineConfig({
     setupFiles: ".vitest/setup",
     include: ["**/test.{ts,tsx}"],
   },
+  
 });
