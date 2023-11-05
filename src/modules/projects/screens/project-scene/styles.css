@@ -8,7 +8,7 @@
 }
 
 .scene {
-    overflow-y: hidden;
+  overflow-y: hidden;
 
   flex: 1;
   border: 1px solid red;

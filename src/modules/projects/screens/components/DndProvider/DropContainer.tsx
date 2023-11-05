@@ -1,8 +1,7 @@
-
 export const DropContainer: React.FC = () => {
   const handleDrop = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
-    const data = JSON.parse(e.dataTransfer.getData('polygon'));
+    const data = JSON.parse(e.dataTransfer.getData("polygon"));
     // Handle the drop action, which can include updating the position of the dropped polygon
   };
 
@@ -20,5 +19,3 @@ export const DropContainer: React.FC = () => {
     </div>
   );
 };
-
-

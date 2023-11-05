@@ -1,1 +1,1 @@
-export {PolygonMaker} from './PolygoneMaker';
+export { PolygonMaker } from "./PolygoneMaker";

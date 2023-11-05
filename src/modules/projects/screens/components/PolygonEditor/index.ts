@@ -1,1 +1,1 @@
-export {PolygonEditor} from './PolygoneEditor';
+export { PolygonEditor } from "./PolygoneEditor";

@@ -1,41 +1,28 @@
 import React from "react";
-import { Draggable, Droppable } from "@hello-pangea/dnd";
 import { Polygon } from "..";
-
-interface Polygon {
-  id: string;
-  sides: number;
-  vertices: { x: number; y: number }[]; // Array of vertex coordinates
-}
 
 interface PolygonEditorProps {
   polygons: Polygon[];
   onDeletePolygon: (id: string) => void;
+  editVertices: (id: string, vertices: Vertex, index: number) => void;
 }
 
 export const PolygonEditor: React.FC<PolygonEditorProps> = ({
   polygons,
   onDeletePolygon,
+  editVertices,
 }) => {
   return (
-    <Droppable droppableId="polygon-editor-droppable" >
-      {(provided) => (
-        <div
-          ref={provided.innerRef}
-          className="scene"
-          {...provided.droppableProps}
-        >
-          {polygons.map((polygon, index) => (
-            <Polygon
-              key={polygon.id}
-              index={index}
-              {...polygon}
-              onDelete={() => onDeletePolygon(polygon.id)}
-            />
-          ))}
-          {provided.placeholder}
-        </div>
-      )}
-    </Droppable>
+    <div className="scene">
+      {polygons.map((polygon, index) => (
+        <Polygon
+          editVertices={editVertices}
+          key={polygon.id}
+          index={index}
+          {...polygon}
+          onDelete={() => onDeletePolygon(polygon.id)}
+        />
+      ))}
+    </div>
   );
 };

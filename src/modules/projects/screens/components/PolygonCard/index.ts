@@ -1,1 +1,1 @@
-export { PolygonCard } from "./PolygonCard"
+export { PolygonCard } from "./PolygonCard";

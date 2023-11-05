@@ -1,4 +1,8 @@
 .polygon {
-    fill: none;
-    stroke: #0074d9; /* Change the color as needed */
-  }
+  fill: none;
+  stroke: #0074d9; /* Change the color as needed */
+}
+
+.anchor:hover {
+  fill: red;
+}
