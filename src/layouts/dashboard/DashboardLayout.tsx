@@ -1,19 +1,31 @@
+import Avatar from "components/Avatar";
+import { useAppDispatch, useAppSelector } from "hooks";
+import { logout } from "modules/authentication/screens/store/AuthenticationReducer";
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+
 
 export const DashboardLayout: React.FC = () => {
+  const user = useAppSelector((state) => state.authentication.userData);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate()
+  //TODO make this static value
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/')
+  }
   return (
     <div className="h-screen flex overflow-hidden bg-gray-100">
-      {/* Sidebar */}
-      <nav className="hidden w-64 bg-white border-r border-gray-200 md:flex md:flex-shrink-0">
-        <div className="w-64 py-4">{/* Sidebar content goes here */}</div>
-      </nav>
-
+  
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <header className="w-full flex-shrink-0 bg-white border-b border-gray-200">
-          <div className="px-4 py-2">{/* Header content goes here */}</div>
+          <div className="px-4 py-2 flex justify-between items-center">
+            <button onClick={() => window.history.back()}>{'< Back'}</button>
+            <h2>{user.username}</h2>
+            <button onClick={handleLogout}>Logout</button>
+          </div>
         </header>
 
         {/* Content */}

@@ -9,3 +9,18 @@ interface Polygon {
   sides: number;
   vertices: Vertex[];
 }
+
+interface User {
+  id: string;
+  username: string;
+  password: string;
+
+}
+
+interface Project {
+  id: string;
+  name: string;
+  description: string;
+  polygons: Polygon[];
+}
+

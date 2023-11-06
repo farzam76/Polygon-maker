@@ -1,6 +1,15 @@
 .polygon {
   fill: none;
+  position: absolute;
+
   stroke: #0074d9; /* Change the color as needed */
+}
+.anchor{
+    position: absolute;
+}
+
+.anchor-point{
+    position: absolute;
 }
 
 .anchor:hover {

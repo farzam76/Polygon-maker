@@ -1,8 +1,8 @@
 .floating-card {
   position: absolute;
-  top: 20px;
+  top: 50px;
   right: 20px;
-  width: 150px;
+  width: 250px;
   padding: 20px;
   border-radius: 5px;
   z-index: 999;
@@ -19,8 +19,10 @@
   margin-top: 10px;
   background-color: #f0f0f0;
   border: none;
-  padding: 5px 10px;
   cursor: pointer;
   border-radius: 5px;
   font-size: 14px;
+  position: absolute;
+  top: 5px;
+  right: 10px;
 }
