@@ -189,9 +189,9 @@ export const Polygon: React.FC<PolygonProps> = ({
           </g>)}
         </g>
       </svg>
-      {!isSelected && (<div className="actions">
-      <Button iconName="delete" onClick={() => onDelete(id)}/>
-      <Button iconName="edit" onClick={() => handleOnClick(id)}/>
+      {!isSelected && (<div className="actions" aria-label="polygon-actions">
+      <Button aria-label="delete-polygon-icon" iconName="delete" onClick={() => onDelete(id)}/>
+      <Button aria-label="edit-polygon-icon" iconName="edit" onClick={() => handleOnClick(id)}/>
       </div>)}
     </div>
     </>
