@@ -6,11 +6,11 @@ export enum Theme {
 }
 
 export type ProjectsInitialState = {
-  polygons: Polygon[];
+
   projects: Project[];
 };
 const initialState: ProjectsInitialState = {
-    polygons: [],
+
     projects: []
 };
 
@@ -18,17 +18,24 @@ export const ProjectSlice = createSlice({
   name: "projects",
   initialState,
   reducers: {
-    updatePolygons(state, action) {
-     state.polygons = action.payload;
-    },
+
     updateProjects(state, action) {
       state.projects = action.payload;
     },
     addProject(state, action) {
       state.projects.push(action.payload);
-    }
+    },
+    updateProjectsPolygons(state, action) {
+      state.projects = state.projects.map((project) => {
+        
+        if (project.id === action.payload.id) {
+          return {...project, polygons: action.payload.polygons};
+        }
+        return project;
+      });
+    },
   },
 });
 
-export const { updatePolygons, updateProjects, addProject } = ProjectSlice.actions;
+export const { updateProjectsPolygons, updateProjects, addProject } = ProjectSlice.actions;
 export default ProjectSlice.reducer;

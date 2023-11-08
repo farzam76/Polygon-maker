@@ -6,16 +6,15 @@ import { createSlice } from "@reduxjs/toolkit";
 export type AuthenticationInitialState = {
   isLoggedIn: boolean;
   userData: User;
-  users: User[];
 };
 const initialState: AuthenticationInitialState = {
     isLoggedIn: false,
     userData: {
         id: "",
         username: "",
-        password: ""
+        password: "",
+        projectIds: []
     },
-    users:[]
 };
 
 export const AuthenticationSlice = createSlice({
@@ -25,7 +24,7 @@ export const AuthenticationSlice = createSlice({
     updateIsLoggedIn(state, action) {
         state.isLoggedIn = action.payload;
         },
-        updateUser(state, action) {
+        updateUserData(state, action) {
             state.userData = action.payload;
         },
         logout(state) {
@@ -33,22 +32,20 @@ export const AuthenticationSlice = createSlice({
             state.userData = {
                 id: "",
                 username: "",
-                password: ""
+                password: "",
+                projectIds: []
             }
         },
-        login(state, action) {
-            state.users.find(user => user.id === action.payload.id);
-            
+        login(state, action) {            
             state.isLoggedIn = true;
             state.userData = action.payload;
         },
         signup(state, action) {
             state.isLoggedIn = true;
-            state.users.push(action.payload);
             state.userData = action.payload;
         }
   },
 });
 
-export const { updateIsLoggedIn ,updateUser, logout,login,signup  } = AuthenticationSlice.actions;
+export const { updateIsLoggedIn ,updateUserData, logout,login,signup  } = AuthenticationSlice.actions;
 export default AuthenticationSlice.reducer;

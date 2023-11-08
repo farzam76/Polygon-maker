@@ -1,8 +1,9 @@
-import { useAppDispatch } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../store/AuthenticationReducer';
 import { genUniqueId } from 'utils';
+import { addGlobalUser } from 'modules/global/GlobalReducer';
 
 export const CreateAccount: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,7 @@ export const CreateAccount: React.FC = () => {
     email: '',
     password: '',
   });
-
+  const users = useAppSelector((state) => state.global.users);
   const [error, setError] = useState('');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -28,14 +29,17 @@ export const CreateAccount: React.FC = () => {
     // Validation logic
     if (!formData.username || !formData.email || !formData.password) {
       setError('Please fill in all fields.');
-    } else {
+    } else if(users.find(user=>user.username === formData.username)) {
+      setError('Username already exists.');
+
+    }else{
       // Clear any previous error message
       setError('');
-
+      const userData = {id:genUniqueId(),...formData,projectIds:[]}
       // Proceed with sign-up or other actions
-      dispatch(signup({...formData,id:genUniqueId()}));
+      dispatch(signup(userData));
+      dispatch(addGlobalUser(userData));
       navigate('/app');
-
     }
   };
 

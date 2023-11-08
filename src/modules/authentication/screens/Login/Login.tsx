@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export const Login: React.FC = () => {
     const [error, setError] = useState('');
-    const users = useAppSelector((state) => state.authentication.users);
+    const users = useAppSelector((state) => state.global.users);
     const dispatch = useAppDispatch(); 
     const navigate = useNavigate();
     const handleLogin = (event: React.FormEvent) => {
@@ -23,7 +23,6 @@ export const Login: React.FC = () => {
             setError('User not found');
             return;
         }
-        console.log(userData,values);
         if (userData.password !== values.password) 
         {
             setError('Username or password is incorrect');

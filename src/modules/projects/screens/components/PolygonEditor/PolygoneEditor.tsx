@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Polygon, PolygonCard, PolygonMaker } from "..";
 import { genUniqueId } from "utils";
 import { PolygonEditCard } from "../PolygonEditCard";
+import debounce from "lodash/debounce";
+import { useParams } from "react-router-dom";
 
 const calculatePolygonVertices = (sides: number, x: number, y: number) => {
   const vertices = [];
@@ -17,14 +19,35 @@ const calculatePolygonVertices = (sides: number, x: number, y: number) => {
   return vertices;
 };
 
-interface PolygonEditorProps {}
+interface PolygonEditorProps {
+  saveScene: ({
+    projectId,
+    polygons,
+  }: {
+    projectId: string;
+    polygons: Polygon[];
+  }) => void;
+  project: Project;
+}
 
-export const PolygonEditor: React.FC<PolygonEditorProps> = () => {
-  const [polygons, setPolygons] = useState<Polygon[]>([]);
+export const PolygonEditor: React.FC<PolygonEditorProps> = ({ saveScene,project }) => {
+  const params = useParams();
+  const [polygons, setPolygons] = useState<Polygon[]>(project.polygons || []);
   const [polygonIdCounter, setPolygonIdCounter] = useState(0);
   const [selectedPolygon, setSelectedPolygon] = useState<Polygon | null>(null);
 
   const sceneContainerRef = useRef<HTMLDivElement>(null);
+
+  const debouncedAction = debounce((polygons: Polygon[]) => {
+    //type gymnastics :)
+    saveScene({ projectId: params.id || "Default", polygons });
+  }, 300);
+
+  useEffect(() => {
+    debouncedAction(polygons);
+
+    return () => debouncedAction.cancel();
+  }, [polygons]);
 
   const handleDeletePolygon = useCallback((id: string) => {
     setPolygons((prevPolygons) =>
