@@ -1,8 +1,6 @@
 .polygon {
   fill: none;
   position: absolute;
-
-  stroke: #0074d9; /* Change the color as needed */
 }
 .anchor{
     position: absolute;
@@ -15,3 +13,20 @@
 .anchor:hover {
   fill: red;
 }
+
+.actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 90;
+  
+}
+
+.actions button {
+  display: inline-block;
+}
+
+.actions button :nth-last-child(1) {
+  margin-left: 10px;
+}
+

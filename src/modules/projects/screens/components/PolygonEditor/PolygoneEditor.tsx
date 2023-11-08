@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Polygon, PolygonCard, PolygonMaker } from "..";
 import { genUniqueId } from "utils";
+import { PolygonEditCard } from "../PolygonEditCard";
 
 const calculatePolygonVertices = (sides: number, x: number, y: number) => {
   const vertices = [];
@@ -21,6 +22,7 @@ interface PolygonEditorProps {}
 export const PolygonEditor: React.FC<PolygonEditorProps> = () => {
   const [polygons, setPolygons] = useState<Polygon[]>([]);
   const [polygonIdCounter, setPolygonIdCounter] = useState(0);
+  const [selectedPolygon, setSelectedPolygon] = useState<Polygon | null>(null);
 
   const sceneContainerRef = useRef<HTMLDivElement>(null);
 
@@ -29,7 +31,7 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = () => {
       prevPolygons.filter((polygon) => polygon.id !== id)
     );
   }, []);
-  
+
   const editVertices = useCallback((id: string, updatedVertices: Vertex[]) => {
     setPolygons((prevPolygons) =>
       prevPolygons.map((polygon) =>
@@ -71,9 +73,13 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = () => {
       <PolygonCard>
         <PolygonMaker onCreatePolygon={handleCreatePolygon} />
       </PolygonCard>
+      {selectedPolygon && (<PolygonEditCard polygon={selectedPolygon} onEditVertices={editVertices}/>)}
+
       <div ref={sceneContainerRef} className="scene border-black">
         {polygons.map((polygon) => (
           <Polygon
+            isSelected={selectedPolygon?.id === polygon.id}
+            handleOnClick={(id) => setSelectedPolygon(polygons.find((p) => p.id === id) || null)}
             editPosition={handleEditPosition}
             editVertices={editVertices}
             sceneContainerRef={sceneContainerRef}

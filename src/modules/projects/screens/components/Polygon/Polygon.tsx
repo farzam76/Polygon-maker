@@ -1,5 +1,6 @@
 import React, { useState, MouseEvent, useEffect, useCallback } from "react";
 import "./styles.css";
+import { Button } from "components/Button";
 
 interface Vertex {
   id: string;
@@ -15,6 +16,9 @@ interface PolygonProps {
   editPosition: (id: string, position: { x: number; y: number }) => void;
   position: { x: number; y: number };
   sceneContainerRef: React.RefObject<HTMLDivElement>;
+  handleOnClick: (id: string) => void;
+  isSelected: boolean;
+
 }
 
 export const Polygon: React.FC<PolygonProps> = ({
@@ -25,6 +29,8 @@ export const Polygon: React.FC<PolygonProps> = ({
   editPosition,
   position,
   sceneContainerRef,
+  handleOnClick,
+  isSelected,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [draggingVertex, setDraggingVertex] = useState<Vertex | null>(null);
@@ -129,6 +135,7 @@ export const Polygon: React.FC<PolygonProps> = ({
           setInitialVertexY(vertex.y);
         }
       } else {
+        
         setIsDragging(true);
         setInitialMouseX(e.clientX);
         setInitialMouseY(e.clientY);
@@ -140,6 +147,7 @@ export const Polygon: React.FC<PolygonProps> = ({
   };
 
   return (
+    <>
     <div
       className="draggable-polygon"
       onMouseDown={handleClick}
@@ -166,6 +174,7 @@ export const Polygon: React.FC<PolygonProps> = ({
               .join(" ")}
             fill="lightblue"
           />
+          {isSelected && (<g>
           {vertices.map((vertex) => (
             <circle
               className="anchor"
@@ -177,9 +186,14 @@ export const Polygon: React.FC<PolygonProps> = ({
               data-id={vertex.id}
             />
           ))}
+          </g>)}
         </g>
       </svg>
-      <button onClick={() => onDelete(id)}>Delete</button>
+      <div className="actions">
+      <Button iconName="delete" onClick={() => onDelete(id)}/>
+      <Button iconName="edit" onClick={() => handleOnClick(id)}/>
+      </div>
     </div>
+    </>
   );
 };
