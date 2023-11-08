@@ -8,6 +8,7 @@ interface Polygon {
   id: string;
   sides: number;
   vertices: Vertex[];
+  position: {x: number, y: number};
 }
 
 interface User {

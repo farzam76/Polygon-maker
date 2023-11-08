@@ -1,7 +1,6 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Polygon, PolygonCard, PolygonMaker } from "..";
 import { genUniqueId } from "utils";
-
 
 const calculatePolygonVertices = (sides: number, x: number, y: number) => {
   const vertices = [];
@@ -16,26 +15,49 @@ const calculatePolygonVertices = (sides: number, x: number, y: number) => {
 
   return vertices;
 };
-export const PolygonEditor: React.FC = () => {
-  console.log("%c Polygon editor", "color: red; font-weight: bold;");
+
+interface PolygonEditorProps {}
+
+export const PolygonEditor: React.FC<PolygonEditorProps> = () => {
   const [polygons, setPolygons] = useState<Polygon[]>([]);
   const [polygonIdCounter, setPolygonIdCounter] = useState(0);
 
+  const sceneContainerRef = useRef<HTMLDivElement>(null);
 
   const handleDeletePolygon = useCallback((id: string) => {
     setPolygons((prevPolygons) =>
       prevPolygons.filter((polygon) => polygon.id !== id)
     );
   }, []);
+  
+  const editVertices = useCallback((id: string, updatedVertices: Vertex[]) => {
+    setPolygons((prevPolygons) =>
+      prevPolygons.map((polygon) =>
+        polygon.id === id
+          ? { ...polygon, vertices: updatedVertices }
+          : polygon
+      )
+    );
+  }, []);
 
-  const editVertices = useCallback(
-    (id: string, vertices: Vertex, vertexid: number) => {
+
+  const handleCreatePolygon = useCallback((sides: number) => {
+    const newPolygon: Polygon = {
+      id: genUniqueId(),
+      sides,
+      vertices: calculatePolygonVertices(sides, 100, 100), // Adjust position as needed
+      position: { x: 0, y: 0 }, // Adjust position as needed
+    };
+    setPolygons((prevPolygons) => [...prevPolygons, newPolygon]);
+    setPolygonIdCounter(polygonIdCounter + 1);
+  }, []);
+
+  const handleEditPosition = useCallback(
+    (id: string, position: { x: number; y: number }) => {
       setPolygons((prevPolygons) =>
         prevPolygons.map((polygon) => {
           if (polygon.id === id) {
-            const updatedVertices = [...polygon.vertices];
-            updatedVertices[vertexid] = vertices;
-            return { ...polygon, vertices: updatedVertices };
+            return { ...polygon, position };
           }
           return polygon;
         })
@@ -44,24 +66,17 @@ export const PolygonEditor: React.FC = () => {
     []
   );
 
-  const handleCreatePolygon = useCallback((sides: number) => {
-    const newPolygon: Polygon = {
-      id: `polygon-${polygonIdCounter}`,
-      sides,
-      vertices: calculatePolygonVertices(sides, 100, 100), // Adjust position as needed
-    };
-    setPolygons((prevPolygons) => [...prevPolygons, newPolygon]);
-    setPolygonIdCounter(polygonIdCounter + 1);
-  },[]);
   return (
     <>
       <PolygonCard>
         <PolygonMaker onCreatePolygon={handleCreatePolygon} />
       </PolygonCard>
-      <div className="scene p-10 border-black">
+      <div ref={sceneContainerRef} className="scene border-black">
         {polygons.map((polygon) => (
           <Polygon
+            editPosition={handleEditPosition}
             editVertices={editVertices}
+            sceneContainerRef={sceneContainerRef}
             key={polygon.id}
             {...polygon}
             onDelete={() => handleDeletePolygon(polygon.id)}
@@ -71,3 +86,5 @@ export const PolygonEditor: React.FC = () => {
     </>
   );
 };
+
+
