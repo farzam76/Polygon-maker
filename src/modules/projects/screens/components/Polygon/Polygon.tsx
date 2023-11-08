@@ -189,10 +189,10 @@ export const Polygon: React.FC<PolygonProps> = ({
           </g>)}
         </g>
       </svg>
-      <div className="actions">
+      {!isSelected && (<div className="actions">
       <Button iconName="delete" onClick={() => onDelete(id)}/>
       <Button iconName="edit" onClick={() => handleOnClick(id)}/>
-      </div>
+      </div>)}
     </div>
     </>
   );

@@ -15,11 +15,16 @@
 }
 
 .actions {
+  display: none;
   position: absolute;
   top: 0;
   right: 0;
   z-index: 90;
   
+}
+
+.draggable-polygon:hover .actions{
+  display: block;
 }
 
 .actions button {

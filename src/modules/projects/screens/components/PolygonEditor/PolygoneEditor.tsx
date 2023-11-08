@@ -30,18 +30,16 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = () => {
     setPolygons((prevPolygons) =>
       prevPolygons.filter((polygon) => polygon.id !== id)
     );
+    setSelectedPolygon(null);
   }, []);
 
   const editVertices = useCallback((id: string, updatedVertices: Vertex[]) => {
     setPolygons((prevPolygons) =>
       prevPolygons.map((polygon) =>
-        polygon.id === id
-          ? { ...polygon, vertices: updatedVertices }
-          : polygon
+        polygon.id === id ? { ...polygon, vertices: updatedVertices } : polygon
       )
     );
   }, []);
-
 
   const handleCreatePolygon = useCallback((sides: number) => {
     const newPolygon: Polygon = {
@@ -68,18 +66,38 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = () => {
     []
   );
 
+  const clickAwayHandler = useCallback(
+    (e: MouseEvent) => {
+      if (e.target === sceneContainerRef.current) {
+        setSelectedPolygon(null);
+      }
+    },
+    [sceneContainerRef.current]
+  );
+
   return (
     <>
       <PolygonCard>
         <PolygonMaker onCreatePolygon={handleCreatePolygon} />
       </PolygonCard>
-      {selectedPolygon && (<PolygonEditCard polygon={selectedPolygon} onEditVertices={editVertices}/>)}
+      {selectedPolygon && (
+        <PolygonEditCard
+          polygon={selectedPolygon}
+          onEditVertices={editVertices}
+        />
+      )}
 
-      <div ref={sceneContainerRef} className="scene border-black">
+      <div
+        ref={sceneContainerRef}
+        className="scene border-black"
+        onClick={clickAwayHandler}
+      >
         {polygons.map((polygon) => (
           <Polygon
             isSelected={selectedPolygon?.id === polygon.id}
-            handleOnClick={(id) => setSelectedPolygon(polygons.find((p) => p.id === id) || null)}
+            handleOnClick={(id) =>
+              setSelectedPolygon(polygons.find((p) => p.id === id) || null)
+            }
             editPosition={handleEditPosition}
             editVertices={editVertices}
             sceneContainerRef={sceneContainerRef}
@@ -92,5 +110,3 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = () => {
     </>
   );
 };
-
-
