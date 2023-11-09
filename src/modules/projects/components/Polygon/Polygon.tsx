@@ -1,8 +1,7 @@
-import React, { useState, MouseEvent, useEffect, useCallback } from "react";
-import "./styles.css";
-import { PolygonAnchors } from "../PolygonAnchors";
-import { PolygonActions } from "../PolygonActions";
+import React, { useCallback } from "react";
+import { PolygonAnchors, PolygonActions } from "../index";
 import useDragAndDrop from "modules/projects/hooks/useDragAndDrop";
+import "./styles.css";
 
 interface Vertex {
   id: string;
@@ -47,7 +46,12 @@ export const Polygon: React.FC<PolygonProps> = ({
       editVertices: handleEditVertices,
       position,
     });
-
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+      // Handle keyboard events
+      if (e.key === "Enter" || e.key === " ") {
+        handleClick(e as unknown as ReactMouseEvent);
+      }
+    };
   return (
     <>
       <div
@@ -55,6 +59,7 @@ export const Polygon: React.FC<PolygonProps> = ({
         onMouseDown={handleClick}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        onKeyDown={handleKeyDown}
         style={{
           left: position.x + "px",
           top: position.y + "px",
@@ -62,6 +67,9 @@ export const Polygon: React.FC<PolygonProps> = ({
           height: svgBoundaries.maxY + "px",
           position: "absolute",
         }}
+        role="button" 
+        aria-label={`Polygon ${id}`}
+        tabIndex={0} 
       >
         <svg
           viewBox="30 30 150 150"

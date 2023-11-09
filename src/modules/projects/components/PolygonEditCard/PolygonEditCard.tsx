@@ -39,7 +39,7 @@ export const PolygonEditCard: React.FC<EditableCardProps> = ({
     <div className="card-container bg-white shadow-md rounded p-4 m-4">
       <h2 className="text-xl font-semibold mb-2">Edit Polygon</h2>
       <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-600">
+        <label className="block text-sm font-medium text-gray-600" htmlFor="sides-input">
           Sides:
         </label>
         <input
@@ -47,6 +47,7 @@ export const PolygonEditCard: React.FC<EditableCardProps> = ({
           min={3}
           max={12}
           value={editingSides}
+          id="sides-input"
           onChange={(e) => handleSidesChange(parseInt(e.target.value, 10))}
           className="border border-gray-300 rounded p-2 w-full"
         />
@@ -59,12 +60,14 @@ export const PolygonEditCard: React.FC<EditableCardProps> = ({
           <div key={vertex.id} className="flex mb-2">
             <input
               type="number"
+              id={`x-input-${index}`}
               value={vertex.x.toFixed(0)}
               onChange={(e) => handleVerticesChange(index, 'x', parseInt(e.target.value, 10))}
               className="border border-gray-300 rounded p-2 w-1/2 mr-2"
             />
             <input
               type="number"
+              id={`y-input-${index}`}
               value={vertex.y.toFixed(0)}
               onChange={(e) => handleVerticesChange(index, 'y', parseInt(e.target.value, 10))}
               className="border border-gray-300 rounded p-2 w-1/2"

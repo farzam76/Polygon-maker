@@ -25,9 +25,12 @@ export const PolygonCard: React.FC<FloatingCardProps> = ({ children }) => {
   return (
     <>
       <Button
+      role="button"
+      aria-label="Show Polygon Card"
         onClick={() => {
           setShowCard(true);
         }}
+        onKeyDown={(e) => e.key === "Enter" && setShowCard(true)}
         className="p-1 ml-4 mt-1 text-white"
       >
         add polygon
@@ -41,6 +44,8 @@ export const PolygonCard: React.FC<FloatingCardProps> = ({ children }) => {
             iconName="close"
             className="dismiss-button"
             onClick={() => setShowCard(false)}
+            onKeyDown={(e) => e.key === "Enter" && setShowCard(false)}
+            aria-label="Dismiss Polygon Card"
           />
 
           <div className="text-md color-#333">{children}</div>

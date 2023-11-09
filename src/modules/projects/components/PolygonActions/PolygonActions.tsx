@@ -16,14 +16,14 @@ export const PolygonActions: React.FC<PolygonActionsProps> = ({
   return (
     <>
       {!isSelected && (
-        <div className="actions" aria-label="polygon-actions">
+        <div className="actions" aria-label={`Polygon ${id} actions`}>
           <Button
-            aria-label="delete-polygon-icon"
+           aria-label={`Delete Polygon ${id}`}
             iconName="delete"
             onClick={() => onDelete(id)}
           />
           <Button
-            aria-label="edit-polygon-icon"
+            aria-label={`Edit Polygon ${id}`}
             iconName="edit"
             onClick={() => handleOnClick(id)}
           />
