@@ -34,7 +34,7 @@ export const ProjectsList = () => {
         polygons: [],
       }),
     );
-  }, []);
+  }, [userData, dispatch]);
   if (!allProjects || !userData) {
     return <div>Loading or empty state handling...</div>;
   }

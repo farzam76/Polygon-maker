@@ -62,6 +62,7 @@ const useDragAndDrop = ({
   }, [vertices]);
 
   const handleMouseMove = (e: ReactMouseEvent) => {
+    e.stopPropagation();
     if (isDragging || draggingVertex) {
       if (isDragging) {
         const deltaX = e.movementX;
@@ -104,6 +105,7 @@ const useDragAndDrop = ({
   };
 
   const handleClick = (e: ReactMouseEvent) => {
+    e.stopPropagation();
     if (e.target && e.target instanceof Element) {
       const target = e.target;
 

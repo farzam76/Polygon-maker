@@ -3,6 +3,7 @@ import { AuthLayout, DashboardLayout } from "layouts";
 import { Login, Signup } from "modules/authentication/screens";
 import { ProjectsList, ProjectScene } from "modules/projects/screens";
 import PrivateRoute from "PrivateRoute";
+import { Suspense } from "react";
 
 export const appRoutes = {
   BASE_ROUTE: "/",
@@ -17,8 +18,22 @@ export default function Router() {
     {
       element: <AuthLayout />,
       children: [
-        { path: appRoutes.LOGIN_ROUTE, element: <Login /> },
-        { path: appRoutes.SIGNUP_ROUTE, element: <Signup /> },
+        {
+          path: appRoutes.LOGIN_ROUTE,
+          element: (
+            <Suspense fallback={"...loading"}>
+              <Login />
+            </Suspense>
+          ),
+        },
+        {
+          path: appRoutes.SIGNUP_ROUTE,
+          element: (
+            <Suspense fallback={"...loading"}>
+              <Signup />{" "}
+            </Suspense>
+          ),
+        },
       ],
     },
     {

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import "./styles.css";
+import React, { useEffect, useState } from "react";
+import "./styles.css"
 interface EditableCardProps {
   polygon: Polygon;
-  onEditVertices: (id:string,vertices: Vertex[]) => void;
+  onEditVertices: (id: string, vertices: Vertex[]) => void;
   onEditSides?: (sides: number) => void;
 }
 
@@ -11,12 +11,16 @@ export const PolygonEditCard: React.FC<EditableCardProps> = ({
   onEditVertices,
   onEditSides,
 }) => {
+  useEffect(() => {
+    console.log("PolygonEditCard: useEffect: polygon", polygon);
+  }, [polygon]);
+
   const [editingVertices, setEditingVertices] = useState([...polygon.vertices]);
   const [editingSides, setEditingSides] = useState(polygon.sides);
 
-  const handleVerticesChange = (index: number, newValue: number) => {
+  const handleVerticesChange = (index: number, field: keyof Vertex, newValue: number) => {
     const updatedVertices = [...editingVertices];
-    updatedVertices[index].x = newValue;
+    updatedVertices[index] = { ...updatedVertices[index], [field]: newValue };
     setEditingVertices(updatedVertices);
   };
 
@@ -25,7 +29,7 @@ export const PolygonEditCard: React.FC<EditableCardProps> = ({
   };
 
   const handleSave = () => {
-    onEditVertices(polygon.id,[...editingVertices]);
+    onEditVertices(polygon.id, [...editingVertices]);
     //onEditSides(editingSides);
   };
 
@@ -48,15 +52,20 @@ export const PolygonEditCard: React.FC<EditableCardProps> = ({
           Vertices:
         </label>
         {editingVertices.map((vertex, index) => (
-          <input
-            key={vertex.id}
-            type="number"
-            value={vertex.x}
-            onChange={(e) =>
-              handleVerticesChange(index, parseInt(e.target.value, 10))
-            }
-            className="border border-gray-300 rounded p-2 w-full mb-2"
-          />
+          <div key={vertex.id} className="flex mb-2">
+            <input
+              type="number"
+              value={vertex.x}
+              onChange={(e) => handleVerticesChange(index, 'x', parseInt(e.target.value, 10))}
+              className="border border-gray-300 rounded p-2 w-1/2 mr-2"
+            />
+            <input
+              type="number"
+              value={vertex.y}
+              onChange={(e) => handleVerticesChange(index, 'y', parseInt(e.target.value, 10))}
+              className="border border-gray-300 rounded p-2 w-1/2"
+            />
+          </div>
         ))}
       </div>
       <button

@@ -4,7 +4,6 @@ import react from "@vitejs/plugin-react-swc";
 import tsconfigPaths from "vite-tsconfig-paths";
 import eslint from "vite-plugin-eslint";
 import dts from "vite-plugin-dts";
-import * as path from 'path'
 
 // https://vitejs.dev/config https://vitest.dev/config
 export default defineConfig({
