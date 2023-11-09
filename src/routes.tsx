@@ -1,24 +1,38 @@
 import { useRoutes } from "react-router-dom";
 import { AuthLayout, DashboardLayout } from "layouts";
-import { Login, CreateAccount } from "modules/authentication/screens";
-import { ProjectsList } from "modules/projects/screens/projects-list";
-import { ProjectScene } from "modules/projects/screens/project-scene";
+import { Login, Signup } from "modules/authentication/screens";
+import { ProjectsList, ProjectScene } from "modules/projects/screens";
 import PrivateRoute from "PrivateRoute";
-//TODO: FIX THIS
+
+export const appRoutes = {
+  BASE_ROUTE: "/",
+  LOGIN_ROUTE: "/login",
+  SIGNUP_ROUTE: "/signup",
+  PROJECT_ROUTE: "/app",
+  SCENE_ROUTE: "/app/:id",
+};
+
 export default function Router() {
   const element = useRoutes([
     {
       element: <AuthLayout />,
       children: [
-        { path: "/", element: <Login /> },
-        { path: "signup", element: <CreateAccount /> },
+        { path: appRoutes.LOGIN_ROUTE, element: <Login /> },
+        { path: appRoutes.SIGNUP_ROUTE, element: <Signup /> },
       ],
     },
     {
+      path: appRoutes.BASE_ROUTE,
       element: <DashboardLayout />,
       children: [
-        { path: "/app", element: <PrivateRoute element={<ProjectsList />} /> },
-        { path: "/:id", element: <ProjectScene /> },
+        {
+          path: appRoutes.PROJECT_ROUTE,
+          element: <PrivateRoute element={<ProjectsList />} />,
+        },
+        {
+          path: appRoutes.SCENE_ROUTE,
+          element: <PrivateRoute element={<ProjectScene />} />,
+        },
       ],
     },
   ]);

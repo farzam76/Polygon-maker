@@ -6,14 +6,10 @@
   padding: 20px;
   border-radius: 5px;
   z-index: 999;
-  background: #fff; /* Ensure the card covers other elements */
+  background: #fff; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.card-content {
-  color: #333;
-  font-size: 18px;
-}
 
 .dismiss-button {
   margin-top: 10px;

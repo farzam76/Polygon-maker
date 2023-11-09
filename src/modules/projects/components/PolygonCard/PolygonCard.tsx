@@ -1,10 +1,13 @@
 import { useSpring, animated, config } from "@react-spring/web";
-import "./styles.css";
 import { useState } from "react";
 import { Button } from "components/Button";
+import "./styles.css";
+
+
 interface FloatingCardProps {
   children: React.ReactNode;
 }
+
 export const PolygonCard: React.FC<FloatingCardProps> = ({ children }) => {
   const [showCard, setShowCard] = useState(true);
 
@@ -21,13 +24,14 @@ export const PolygonCard: React.FC<FloatingCardProps> = ({ children }) => {
 
   return (
     <>
-      <button
+      <Button
         onClick={() => {
           setShowCard(true);
         }}
+        className="p-1 ml-4 mt-1 text-white"
       >
         add polygon
-      </button>
+      </Button>
       {showCard && (
         <animated.div
           className="floating-card"
@@ -39,7 +43,7 @@ export const PolygonCard: React.FC<FloatingCardProps> = ({ children }) => {
             onClick={() => setShowCard(false)}
           />
 
-          <div className="card-content">{children}</div>
+          <div className="text-md color-#333">{children}</div>
         </animated.div>
       )}
     </>

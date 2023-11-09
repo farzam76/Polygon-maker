@@ -1,15 +1,14 @@
+import { useCallback } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "components/Button";
 import { useAppDispatch, useAppSelector } from "hooks";
 import {
-  ProjectsInitialState,
   addProject,
 } from "modules/projects/store/ProjectsReducer";
-import { Link } from "react-router-dom";
-import { genUniqueId } from "utils";
-import "./styles.css";
 import { updateGlobalUser } from "modules/global/GlobalReducer";
 import { updateUserData } from "modules/authentication/screens/store/AuthenticationReducer";
-import { useCallback } from "react";
+import { genUniqueId } from "utils";
+import { appRoutes } from "routes";
 
 export const ProjectsList = () => {
   const allProjects = useAppSelector((state) => state.projects.projects);
@@ -25,6 +24,7 @@ export const ProjectsList = () => {
     };
     dispatch(updateGlobalUser(updatedUserData));
     dispatch(updateUserData(updatedUserData));
+    //TODO: add a modal for this
     dispatch(
       addProject({
         name: "New Project",
@@ -47,10 +47,10 @@ export const ProjectsList = () => {
       <Button className="p-1 ml-4 text-white" onClick={handleCreateProject}>
         New Project
       </Button>
-      <div className="projects-container p-4">
+      <div className="projects-container p-4 flex flex-row items-center gap-10">
         {userProjects.length > 0 &&
           userProjects.map((project) => (
-            <Link key={project.id} to={`/${project.id}`}>
+            <Link key={project.id} to={`${appRoutes.PROJECT_ROUTE}/${project.id}`}>
               <div className="max-w-sm rounded overflow-hidden bg-white relative">
                 <div className="shadow-lg border border-transparent group">
                   <div className="px-6 py-4">

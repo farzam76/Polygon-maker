@@ -1,9 +1,9 @@
-import { PolygonEditor } from "../../components";
-import { useAppDispatch, useAppSelector } from "hooks";
-import "./styles.css";
-import { updateProjectsPolygons } from "modules/projects/store/ProjectsReducer";
 import { useCallback, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "hooks";
+import { updateProjectsPolygons } from "modules/projects/store/ProjectsReducer";
+import { PolygonEditor } from "modules/projects/components";
+import "./styles.css";
 
 export const ProjectScene = () => {
   const dispatch = useAppDispatch();
@@ -15,12 +15,11 @@ export const ProjectScene = () => {
   );
   const saveScene = useCallback(
     ({ projectId, polygons }: { polygons: Polygon[]; projectId: string }) => {
-      console.log(polygons);
       dispatch(updateProjectsPolygons({ id: projectId, polygons }));
     },
     [dispatch],
   );
-  console.log(project);
+
   return (
     <div className="scene-container">
       <PolygonEditor

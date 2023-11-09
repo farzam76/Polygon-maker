@@ -4,8 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../store/AuthenticationReducer";
 import { genUniqueId } from "utils";
 import { addGlobalUser } from "modules/global/GlobalReducer";
+import { appRoutes } from "routes";
 
-export const CreateAccount: React.FC = () => {
+export const Signup: React.FC = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -38,7 +39,7 @@ export const CreateAccount: React.FC = () => {
       // Proceed with sign-up or other actions
       dispatch(signup(userData));
       dispatch(addGlobalUser(userData));
-      navigate("/app");
+      navigate(appRoutes.PROJECT_ROUTE);
     }
   };
 
@@ -87,7 +88,7 @@ export const CreateAccount: React.FC = () => {
         >
           Sign Up
         </button>
-        <Link to="/" className="text-blue-500 text-sm mt-4">
+        <Link to={appRoutes.LOGIN_ROUTE} className="text-blue-500 text-sm mt-4">
           Already have an account?
         </Link>
       </form>

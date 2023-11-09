@@ -2,6 +2,8 @@ import { useAppDispatch, useAppSelector } from "hooks";
 import React, { useEffect, useState } from "react";
 import { login } from "../store/AuthenticationReducer";
 import { Link, useNavigate } from "react-router-dom";
+import { appRoutes } from "routes";
+import { Button } from "components/Button";
 
 export const Login: React.FC = () => {
   const [error, setError] = useState("");
@@ -9,9 +11,11 @@ export const Login: React.FC = () => {
   const isLoggedIn = useAppSelector((state) => state.authentication.isLoggedIn);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (isLoggedIn) navigate("/app");
+    if (isLoggedIn) navigate(appRoutes.PROJECT_ROUTE);
   }, [isLoggedIn, navigate]);
+
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget as HTMLFormElement);
@@ -31,8 +35,9 @@ export const Login: React.FC = () => {
     }
     dispatch(login(userData));
     setError("");
-    navigate("/app");
+    navigate(appRoutes.PROJECT_ROUTE);
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded shadow-md w-80">
@@ -54,13 +59,13 @@ export const Login: React.FC = () => {
             />
           </div>
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-          <button
+          <Button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
           >
             Login
-          </button>
-          <Link to="/signup" className="text-blue-500 text-sm mt-4">
+          </Button>
+          <Link to={appRoutes.SIGNUP_ROUTE} className="text-blue-500 text-sm mt-4">
             Create Account
           </Link>
         </form>
