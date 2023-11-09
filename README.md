@@ -23,6 +23,9 @@ The Polygon Maker App allows users to create and customize polygons by specifyin
 ## What's not working :\(
 - Dragging the vertex. to the left and top of the screen does not resize the SVG bounds
 - Right and bottom bounds of the Scene are not working properly
+## What's next :\)
+- Adding more tests
+- Adding stroybook
 ## Getting Started
 
 These instructions will help you set up and run the Polygon Maker App on your local machine.

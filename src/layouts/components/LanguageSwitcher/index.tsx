@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
+import { supportedlangs } from 'i18n';
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
   
@@ -11,9 +11,9 @@ const LanguageSwitcher: React.FC = () => {
         onChange={(e) => i18n.changeLanguage(e.target.value)}
         className="appearance-none block w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded leading-tight focus:outline-none focus:ring focus:border-indigo-500"
       >
-        {i18n.languages.map((lang) => (
-          <option key={lang} value={lang}>
-            {lang.toUpperCase()}
+        {supportedlangs.map((lang) => (
+          <option key={lang.code} value={lang.code}>
+            {lang.name}
           </option>
         ))}
       </select>
