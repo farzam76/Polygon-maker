@@ -1,5 +1,19 @@
 {
   "login": {
     "header": "Login"
+  },
+  "signup": {
+    "header": "Signup"
+  },
+  "general":{
+      "header":"Welcom"
+  },
+  "projetcScene":{
+    "addPolygon":"Add Polygon"
+
+  },
+  "projetcList":{
+
   }
+
 }

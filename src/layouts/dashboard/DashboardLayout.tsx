@@ -5,12 +5,14 @@ import { logout } from "modules/authentication/screens/store/AuthenticationReduc
 import { appRoutes } from "routes";
 import Header from "components/Header";
 import LanguageSwitcher from "layouts/components/LanguageSwitcher";
+import { Button } from "components/Button";
+import { useTranslation } from "react-i18next";
 
 export const DashboardLayout: React.FC = () => {
   const user = useAppSelector((state) => state.authentication.userData);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const { t } = useTranslation()
   const handleLogout = () => {
     dispatch(logout());
     navigate(appRoutes.LOGIN_ROUTE);
@@ -21,10 +23,10 @@ export const DashboardLayout: React.FC = () => {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header>
           <div className="px-4 py-2 flex justify-between items-center">
-            <button onClick={() => window.history.back()}>{"< Back"}</button>
-            <h2>{user.username}</h2>
+            <Button iconName="back" onClick={() => window.history.back()}/>
+            <h2>{t('general.header')} {user.username}</h2>
             <div>
-              <button onClick={handleLogout}>Logout</button>
+              <button role="button" className="mr-2" onClick={handleLogout}>Logout</button>
               <LanguageSwitcher />
             </div>
           </div>

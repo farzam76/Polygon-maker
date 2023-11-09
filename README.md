@@ -32,6 +32,7 @@ The Polygon Maker App allows users to create and customize polygons by specifyin
 
 ## What's next :\)
 
+- add more translations
 - Adding more tests
 - Adding stroybook
 

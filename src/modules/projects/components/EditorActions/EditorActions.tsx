@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "components/Button";
 import { FloatingCard } from "components/FloatingCard";
+
 import "./styles.css";
 
 interface EditorActionsProps {

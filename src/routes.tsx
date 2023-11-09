@@ -42,11 +42,15 @@ export default function Router() {
       children: [
         {
           path: appRoutes.PROJECT_ROUTE,
-          element: <PrivateRoute element={<ProjectsList />} />,
+          element: <PrivateRoute element={<Suspense fallback={"...loading"}>
+            <ProjectsList />
+          </Suspense>} />,
         },
         {
           path: appRoutes.SCENE_ROUTE,
-          element: <PrivateRoute element={<ProjectScene />} />,
+          element: <PrivateRoute element={<Suspense fallback={"...loading"}>
+            <ProjectScene />
+          </Suspense>} />,
         },
       ],
     },

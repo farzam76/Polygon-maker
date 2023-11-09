@@ -21,7 +21,7 @@ export const ProjectScene = () => {
   );
 
   return (
-    <div className="scene-container">
+    <div className="scene-container ">
       <PolygonEditor
         project={project as unknown as Project}
         saveScene={saveScene}
