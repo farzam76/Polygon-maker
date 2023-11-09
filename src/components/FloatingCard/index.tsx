@@ -1,15 +1,15 @@
 import { useSpring, animated, config } from "@react-spring/web";
-import { useState } from "react";
 import { Button } from "components/Button";
 import "./styles.css";
 
 
 interface FloatingCardProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+    isOpen: boolean;
+    setIsOpen: (isOpen: boolean) => void;
 }
 
-export const PolygonCard: React.FC<FloatingCardProps> = ({ children }) => {
-  const [showCard, setShowCard] = useState(true);
+export const FloatingCard: React.FC<FloatingCardProps> = ({ children,isOpen,setIsOpen }) => {
 
   const cardAnimation = useSpring({
     from: { opacity: 0, transform: "translateX(100%)" },
@@ -24,18 +24,8 @@ export const PolygonCard: React.FC<FloatingCardProps> = ({ children }) => {
 
   return (
     <>
-      <Button
-      role="button"
-      aria-label="Show Polygon Card"
-        onClick={() => {
-          setShowCard(true);
-        }}
-        onKeyDown={(e) => e.key === "Enter" && setShowCard(true)}
-        className="p-1 ml-4 mt-1 text-white"
-      >
-        add polygon
-      </Button>
-      {showCard && (
+     
+      {isOpen && (
         <animated.div
           className="floating-card"
           style={{ ...cardStyles, ...cardAnimation }}
@@ -43,8 +33,8 @@ export const PolygonCard: React.FC<FloatingCardProps> = ({ children }) => {
           <Button
             iconName="close"
             className="dismiss-button"
-            onClick={() => setShowCard(false)}
-            onKeyDown={(e) => e.key === "Enter" && setShowCard(false)}
+            onClick={() => setIsOpen(false)}
+            onKeyDown={(e) => e.key === "Enter" && setIsOpen(false)}
             aria-label="Dismiss Polygon Card"
           />
 

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { supportedlangs } from 'i18n';
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
-  
+  //TODO move select to its own component
   return (
     <div className="relative inline-block text-left">
     <select

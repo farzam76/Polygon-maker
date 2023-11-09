@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { PolygonAnchors, PolygonActions } from "../index";
 import useDragAndDrop from "modules/projects/hooks/useDragAndDrop";
 import "./styles.css";
@@ -33,12 +33,12 @@ export const Polygon: React.FC<PolygonProps> = ({
   handleOnClick,
   isSelected,
 }) => {
-  const handleEditPosition = useCallback((newPosition: Position) => {
+  const handleEditPosition = (newPosition: Position) => {
     editPosition(id, newPosition);
-  }, []);
-  const handleEditVertices = useCallback((newVertecies: Vertex[]) => {
+  }
+  const handleEditVertices = (newVertecies: Vertex[]) => {
     editVertices(id, newVertecies);
-  }, []);
+  }
   const { handleClick, handleMouseMove, handleMouseUp, svgBoundaries } =
     useDragAndDrop({
       sceneContainerRef,
@@ -48,8 +48,8 @@ export const Polygon: React.FC<PolygonProps> = ({
       position,
     });
     const handleKeyDown = (e: React.KeyboardEvent) => {
-      // Handle keyboard events
-      if (e.key === "Enter" || e.key === " ") {
+      const nativeEvent = e.nativeEvent || e;
+      if (nativeEvent.key === "Enter" || nativeEvent.key === " ") {
         handleClick(e as unknown as ReactMouseEvent);
       }
     };

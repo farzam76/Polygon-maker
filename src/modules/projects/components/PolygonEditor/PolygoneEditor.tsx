@@ -1,18 +1,21 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Polygon, PolygonCard, PolygonMaker } from "..";
+import { Polygon, PolygonMaker, PolygonEditCard, EditorActions } from "..";
 import { genUniqueId } from "utils";
-import { PolygonEditCard } from "../PolygonEditCard";
 import debounce from "lodash/debounce";
 import { useParams } from "react-router-dom";
 
-
-const MutatePolygonVertices = (newSides: number, oldVertices: Vertex[], x: number, y: number) => {
+const MutatePolygonVertices = (
+  newSides: number,
+  oldVertices: Vertex[],
+  x: number,
+  y: number
+) => {
   const oldSides = oldVertices.length;
   const angleIncrement = (2 * Math.PI) / newSides;
   const center = { x, y };
 
   const newVertices: Vertex[] = [...oldVertices];
-  
+
   // If the new number of sides is greater than the old number, add new vertices
   if (newSides > oldSides) {
     //TODO: better possinoning of new vertices
@@ -37,8 +40,8 @@ const calculatePolygonVertices = (sides: number, x: number, y: number) => {
 
   for (let i = 0; i < sides; i++) {
     const angle = i * angleIncrement;
-    const vertexX = x + Math.cos(angle) * 50; 
-    const vertexY = y + Math.sin(angle) * 50; 
+    const vertexX = x + Math.cos(angle) * 50;
+    const vertexY = y + Math.sin(angle) * 50;
     vertices.push({ x: vertexX, y: vertexY, id: genUniqueId() });
   }
 
@@ -76,39 +79,36 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
     debouncedAction(polygons);
 
     return () => debouncedAction.cancel();
-  }, [polygons]);
-
-
+  }, [polygons,debouncedAction]);
 
   const handleDeletePolygon = useCallback((id: string) => {
     setPolygons((prevPolygons) =>
-      prevPolygons.filter((polygon) => polygon.id !== id),
+      prevPolygons.filter((polygon) => polygon.id !== id)
     );
     setSelectedPolygon(null);
   }, []);
 
   const editVertices = (id: string, updatedVertices: Vertex[]) => {
-    setPolygons((prevPolygons) =>
-      {
-        const oldPolygon = prevPolygons.find((polygon) => polygon.id === id);
-        if (oldPolygon )setSelectedPolygon({...oldPolygon, vertices: updatedVertices});
-        return prevPolygons.map((polygon) =>
-        polygon.id === id ? { ...polygon, vertices: updatedVertices } : polygon,
-        )
-      }
-    );
-  }
+    setPolygons((prevPolygons) => {
+      const oldPolygon = prevPolygons.find((polygon) => polygon.id === id);
+      if (oldPolygon)
+        setSelectedPolygon({ ...oldPolygon, vertices: updatedVertices });
+      return prevPolygons.map((polygon) =>
+        polygon.id === id ? { ...polygon, vertices: updatedVertices } : polygon
+      );
+    });
+  };
 
-  const handleCreatePolygon = useCallback((sides: number) => {
+  const handleCreatePolygon = (sides: number) => {
     const newPolygon: Polygon = {
       id: genUniqueId(),
       sides,
-      vertices: calculatePolygonVertices(sides, 100, 100), 
-      position: { x: 0, y: 0 }, 
+      vertices: calculatePolygonVertices(sides, 100, 100),
+      position: { x: 0, y: 0 },
     };
     setPolygons((prevPolygons) => [...prevPolygons, newPolygon]);
     setPolygonIdCounter(polygonIdCounter + 1);
-  }, []);
+  }
 
   const handleEditPosition = useCallback(
     (id: string, position: { x: number; y: number }) => {
@@ -118,10 +118,10 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
             return { ...polygon, position };
           }
           return polygon;
-        }),
+        })
       );
     },
-    [],
+    []
   );
 
   const clickAwayHandler = useCallback(
@@ -130,27 +130,31 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
         setSelectedPolygon(null);
       }
     },
-    [sceneContainerRef.current],
+    [sceneContainerRef]
   );
 
   const handleStartEditing = useCallback(
     (id: string) => {
-
       setSelectedPolygon(polygons.find((p) => p.id === id) || null);
     },
-    [polygons],
+    [polygons]
   );
 
   const onEditSides = (id: string, sides: number) => {
-    const newVertices = MutatePolygonVertices(sides, selectedPolygon?.vertices || [], selectedPolygon?.position.x || 0, selectedPolygon?.position.y || 0)
+    const newVertices = MutatePolygonVertices(
+      sides,
+      selectedPolygon?.vertices || [],
+      selectedPolygon?.position.x || 0,
+      selectedPolygon?.position.y || 0
+    );
     editVertices(id, newVertices);
-  }
+  };
 
   return (
     <>
-      <PolygonCard>
+      <EditorActions>
         <PolygonMaker onCreatePolygon={handleCreatePolygon} />
-      </PolygonCard>
+      </EditorActions>
       {selectedPolygon ? (
         <PolygonEditCard
           polygon={selectedPolygon}

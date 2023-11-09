@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import _debounce from "lodash/debounce";
 
 const overHead = 20;
 interface useDragAndDropProps {
@@ -49,7 +48,7 @@ const useDragAndDrop = ({
 
       setSceneBoundaries({ minX, minY, maxX, maxY });
     }
-  }, [sceneContainerRef?.current]);
+  }, [sceneContainerRef]);
   useEffect(() => {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
