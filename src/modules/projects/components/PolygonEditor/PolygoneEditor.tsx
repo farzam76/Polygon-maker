@@ -4,6 +4,7 @@ import { genUniqueId } from "utils";
 import { PolygonEditCard } from "../PolygonEditCard";
 import debounce from "lodash/debounce";
 import { useParams } from "react-router-dom";
+import { s } from "vitest/dist/reporters-5f784f42.js";
 
 const calculatePolygonVertices = (sides: number, x: number, y: number) => {
   const vertices = [];
@@ -52,6 +53,8 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
     return () => debouncedAction.cancel();
   }, [polygons]);
 
+
+
   const handleDeletePolygon = useCallback((id: string) => {
     setPolygons((prevPolygons) =>
       prevPolygons.filter((polygon) => polygon.id !== id),
@@ -59,13 +62,17 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
     setSelectedPolygon(null);
   }, []);
 
-  const editVertices = useCallback((id: string, updatedVertices: Vertex[]) => {
+  const editVertices = (id: string, updatedVertices: Vertex[]) => {
     setPolygons((prevPolygons) =>
-      prevPolygons.map((polygon) =>
+      {
+        const oldPolygon = prevPolygons.find((polygon) => polygon.id === id);
+        if (oldPolygon )setSelectedPolygon({...oldPolygon, vertices: updatedVertices});
+        return prevPolygons.map((polygon) =>
         polygon.id === id ? { ...polygon, vertices: updatedVertices } : polygon,
-      ),
+        )
+      }
     );
-  }, []);
+  }
 
   const handleCreatePolygon = useCallback((sides: number) => {
     const newPolygon: Polygon = {
@@ -94,6 +101,7 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
 
   const clickAwayHandler = useCallback(
     (e: ReactMouseEvent) => {
+      console.log("here")
       if (e.target === sceneContainerRef.current) {
         setSelectedPolygon(null);
       }
@@ -101,17 +109,25 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
     [sceneContainerRef.current],
   );
 
+  const handleStartEditing = useCallback(
+    (id: string) => {
+
+      setSelectedPolygon(polygons.find((p) => p.id === id) || null);
+    },
+    [polygons],
+  );
+
   return (
     <>
       <PolygonCard>
         <PolygonMaker onCreatePolygon={handleCreatePolygon} />
       </PolygonCard>
-      {selectedPolygon && (
+      {selectedPolygon ? (
         <PolygonEditCard
           polygon={selectedPolygon}
           onEditVertices={editVertices}
         />
-      )}
+      ) : null}
 
       <div
         ref={sceneContainerRef}
@@ -121,9 +137,7 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
         {polygons.map((polygon) => (
           <Polygon
             isSelected={selectedPolygon?.id === polygon.id}
-            handleOnClick={(id) =>
-              setSelectedPolygon(polygons.find((p) => p.id === id) || null)
-            }
+            handleOnClick={handleStartEditing}
             editPosition={handleEditPosition}
             editVertices={editVertices}
             sceneContainerRef={sceneContainerRef}
