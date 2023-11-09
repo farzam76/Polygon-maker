@@ -7,7 +7,7 @@
 }
 
 .anchor-point {
-  position: absolute;
+  position: fixed;
 }
 
 .anchor:hover {

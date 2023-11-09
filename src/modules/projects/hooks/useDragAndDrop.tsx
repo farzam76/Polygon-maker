@@ -1,5 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import _debounce from "lodash/debounce";
 
+const overHead = 20;
 interface useDragAndDropProps {
   sceneContainerRef: React.RefObject<HTMLDivElement>;
   vertices: Vertex[];
@@ -7,6 +9,7 @@ interface useDragAndDropProps {
   editVertices: (vertices: Vertex[]) => void;
   position: Position;
 }
+
 const useDragAndDrop = ({
   sceneContainerRef,
   vertices,
@@ -30,8 +33,8 @@ const useDragAndDrop = ({
   const [svgBoundaries, setSvgBoundaries] = useState({
     minX: 0,
     minY: 0,
-    maxX: 150,
-    maxY: 150,
+    maxX: Math.max(...vertices.map((v) => v.x)) || 150,
+    maxY: Math.max(...vertices.map((v) => v.y)) || 150,
   });
 
   useEffect(() => {
@@ -47,13 +50,17 @@ const useDragAndDrop = ({
       setSceneBoundaries({ minX, minY, maxX, maxY });
     }
   }, [sceneContainerRef?.current]);
-
+  useEffect(() => {
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    }
+  },[])
   const updateSvgBoundary = useCallback(() => {
-    const overHead = 10;
     const minX = 0;
     const minY = 0;
-    const maxX = Math.max(...vertices.map((v) => v.x))+overHead;
-    const maxY = Math.max(...vertices.map((v) => v.y))+overHead;
+    const maxX = Math.max(...vertices.map((v) => v.x)) + overHead;
+    const maxY = Math.max(...vertices.map((v) => v.y)) + overHead;
     setSvgBoundaries({
       minX,
       minY,
@@ -62,8 +69,10 @@ const useDragAndDrop = ({
     });
   }, [vertices]);
 
+ 
+
   const handleMouseMove = (e: ReactMouseEvent) => {
-    e.stopPropagation();
+    //e.stopPropagation();
     if (isDragging || draggingVertex) {
       if (isDragging) {
         const deltaX = e.movementX;
@@ -71,9 +80,18 @@ const useDragAndDrop = ({
 
         const newX = position.x + deltaX;
         const newY = position.y + deltaY;
+        const clampedX = Math.min(
+          Math.max(newX, boundaries.minX),
+          boundaries.maxX
+        );
+        const clampedY = Math.min(
+          Math.max(newY, boundaries.minY),
+          boundaries.maxY
+        );
 
-        editPosition({ x: newX, y: newY });
+        editPosition({ x: clampedX, y: clampedY });
       } else if (draggingVertex) {
+        console.log("draggingVertex");
         const deltaX = e.clientX - initialMouseX;
         const deltaY = e.clientY - initialMouseY;
         const newVertexX = initialVertexX + deltaX;
@@ -81,21 +99,20 @@ const useDragAndDrop = ({
 
         const clampedX = Math.min(
           Math.max(newVertexX, boundaries.minX),
-          boundaries.maxX,
+          boundaries.maxX
         );
         const clampedY = Math.min(
           Math.max(newVertexY, boundaries.minY),
-          boundaries.maxY,
+          boundaries.maxY
         );
-        
-        const newVertices = vertices.map((vertex) => {
-          return vertex.id === draggingVertex.id
-            ? { ...vertex, x: clampedX, y: clampedY }
-            : vertex;
-        });
 
-        editVertices(newVertices);
+        const newVertices = vertices.map((vertex) =>
+          vertex.id === draggingVertex.id
+            ? { ...vertex, x: clampedX, y: clampedY }
+            : vertex
+        );
         updateSvgBoundary();
+        editVertices(newVertices);
       }
     }
   };
@@ -103,36 +120,40 @@ const useDragAndDrop = ({
   const handleMouseUp = () => {
     setIsDragging(false);
     setDraggingVertex(null);
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("mouseup", handleMouseUp);
   };
 
   const handleClick = (e: ReactMouseEvent) => {
     e.stopPropagation();
     if (e.target && e.target instanceof Element) {
       const target = e.target;
-
+      console.log(target);
       if (target.tagName === "circle") {
         const vertexId = target.getAttribute("data-id");
         const vertex = vertices.find((v) => v.id === vertexId);
         if (vertex) {
           setDraggingVertex(vertex);
-
           setInitialMouseX(e.clientX);
           setInitialMouseY(e.clientY);
           setInitialVertexX(vertex.x);
           setInitialVertexY(vertex.y);
+
+          window.addEventListener("mousemove", handleMouseMove);
+          window.addEventListener("mouseup", handleMouseUp);
         }
       } else {
         setIsDragging(true);
         setInitialMouseX(e.clientX);
         setInitialMouseY(e.clientY);
+
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseup", handleMouseUp);
       }
     }
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
   };
 
-  return { handleClick, svgBoundaries, handleMouseMove, handleMouseUp };
+  return { handleClick, svgBoundaries, handleMouseMove, handleMouseUp ,updateSvgBoundary };
 };
 
 export default useDragAndDrop;

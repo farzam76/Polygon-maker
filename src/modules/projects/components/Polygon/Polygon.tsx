@@ -3,6 +3,7 @@ import { PolygonAnchors, PolygonActions } from "../index";
 import useDragAndDrop from "modules/projects/hooks/useDragAndDrop";
 import "./styles.css";
 
+//TODO: overlaping polygons and what do with them?
 interface Vertex {
   id: string;
   x: number;
@@ -55,14 +56,14 @@ export const Polygon: React.FC<PolygonProps> = ({
   return (
     <>
       <div
-        className="draggable-polygon"
+        className={`draggable-polygon ${isSelected ? "focus:border-blue-500 border-2" : ""}`}
         onMouseDown={handleClick}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onKeyDown={handleKeyDown}
         style={{
-          left: position.x + "px",
-          top: position.y + "px",
+          top: position.y,
+          left: position.x,
           width: svgBoundaries.maxX + "px",
           height: svgBoundaries.maxY + "px",
           position: "absolute",
@@ -72,7 +73,7 @@ export const Polygon: React.FC<PolygonProps> = ({
         tabIndex={0} 
       >
         <svg
-          viewBox="30 30 150 150"
+          viewBox={`30 30 ${svgBoundaries.maxX} ${svgBoundaries.maxY}`}
           id={`svg-${id}`}
           width={svgBoundaries.maxX}
           height={svgBoundaries.maxY}

@@ -4,26 +4,22 @@ import { genUniqueId } from "utils";
 import { PolygonEditCard } from "../PolygonEditCard";
 import debounce from "lodash/debounce";
 import { useParams } from "react-router-dom";
-import { s } from "vitest/dist/reporters-5f784f42.js";
-import { on } from "events";
+
 
 const MutatePolygonVertices = (newSides: number, oldVertices: Vertex[], x: number, y: number) => {
   const oldSides = oldVertices.length;
   const angleIncrement = (2 * Math.PI) / newSides;
   const center = { x, y };
 
-  // Create an array to store the new vertices
   const newVertices: Vertex[] = [...oldVertices];
   
-
-
   // If the new number of sides is greater than the old number, add new vertices
   if (newSides > oldSides) {
-
+    //TODO: better possinoning of new vertices
     for (let i = oldSides; i < newSides; i++) {
       const angle = i * angleIncrement;
-      const vertexX = center.x + Math.cos(angle) * 50;
-      const vertexY = center.y + Math.sin(angle) * 50;
+      const vertexX = center.x + Math.cos(angle) * 30;
+      const vertexY = center.y + Math.sin(angle) * 30;
       newVertices.push({ x: vertexX, y: vertexY, id: genUniqueId() });
     }
   }
