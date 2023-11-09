@@ -4,7 +4,7 @@ import App from "App";
 import { Provider } from "react-redux";
 import { store, persistor } from "modules/store";
 import { PersistGate } from "redux-persist/integration/react";
-import './i18n';
+import "./i18n";
 
 const container = document.getElementById("root") as HTMLDivElement;
 const root = createRoot(container);

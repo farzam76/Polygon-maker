@@ -4,4 +4,4 @@ export { EditorActions } from "./EditorActions";
 export { PolygonMaker } from "./PolygonMaker";
 export { PolygonActions } from "./PolygonActions";
 export { PolygonAnchors } from "./PolygonAnchors";
-export {PolygonEditCard} from "./PolygonEditCard";
+export { PolygonEditCard } from "./PolygonEditCard";

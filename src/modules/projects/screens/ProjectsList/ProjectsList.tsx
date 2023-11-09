@@ -2,9 +2,7 @@ import { useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "components/Button";
 import { useAppDispatch, useAppSelector } from "hooks";
-import {
-  addProject,
-} from "modules/projects/store/ProjectsReducer";
+import { addProject } from "modules/projects/store/ProjectsReducer";
 import { updateGlobalUser } from "modules/global/GlobalReducer";
 import { updateUserData } from "modules/authentication/screens/store/AuthenticationReducer";
 import { genUniqueId } from "utils";
@@ -50,7 +48,10 @@ export const ProjectsList = () => {
       <div className="projects-container p-4 flex flex-row items-center gap-10">
         {userProjects.length > 0 &&
           userProjects.map((project) => (
-            <Link key={project.id} to={`${appRoutes.PROJECT_ROUTE}/${project.id}`}>
+            <Link
+              key={project.id}
+              to={`${appRoutes.PROJECT_ROUTE}/${project.id}`}
+            >
               <div className="max-w-sm rounded overflow-hidden bg-white relative">
                 <div className="shadow-lg border border-transparent group">
                   <div className="px-6 py-4">

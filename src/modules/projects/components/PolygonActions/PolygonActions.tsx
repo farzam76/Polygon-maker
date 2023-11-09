@@ -18,7 +18,7 @@ export const PolygonActions: React.FC<PolygonActionsProps> = ({
       {!isSelected && (
         <div className="actions" aria-label={`Polygon ${id} actions`}>
           <Button
-           aria-label={`Delete Polygon ${id}`}
+            aria-label={`Delete Polygon ${id}`}
             iconName="delete"
             onClick={() => onDelete(id)}
           />

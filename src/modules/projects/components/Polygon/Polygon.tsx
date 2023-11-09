@@ -35,10 +35,10 @@ export const Polygon: React.FC<PolygonProps> = ({
 }) => {
   const handleEditPosition = (newPosition: Position) => {
     editPosition(id, newPosition);
-  }
+  };
   const handleEditVertices = (newVertecies: Vertex[]) => {
     editVertices(id, newVertecies);
-  }
+  };
   const { handleClick, handleMouseMove, handleMouseUp, svgBoundaries } =
     useDragAndDrop({
       sceneContainerRef,
@@ -47,16 +47,18 @@ export const Polygon: React.FC<PolygonProps> = ({
       editVertices: handleEditVertices,
       position,
     });
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-      const nativeEvent = e.nativeEvent || e;
-      if (nativeEvent.key === "Enter" || nativeEvent.key === " ") {
-        handleClick(e as unknown as ReactMouseEvent);
-      }
-    };
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const nativeEvent = e.nativeEvent || e;
+    if (nativeEvent.key === "Enter" || nativeEvent.key === " ") {
+      handleClick(e as unknown as ReactMouseEvent);
+    }
+  };
   return (
     <>
       <div
-        className={`draggable-polygon ${isSelected ? "focus:border-blue-500 border-2" : ""}`}
+        className={`draggable-polygon ${
+          isSelected ? "focus:border-blue-500 border-2" : ""
+        }`}
         onMouseDown={handleClick}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -68,9 +70,9 @@ export const Polygon: React.FC<PolygonProps> = ({
           height: svgBoundaries.maxY + "px",
           position: "absolute",
         }}
-        role="button" 
+        role="button"
         aria-label={`Polygon ${id}`}
-        tabIndex={0} 
+        tabIndex={0}
       >
         <svg
           viewBox={`30 30 ${svgBoundaries.maxX} ${svgBoundaries.maxY}`}

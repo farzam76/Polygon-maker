@@ -2,15 +2,17 @@ import { useSpring, animated, config } from "@react-spring/web";
 import { Button } from "components/Button";
 import "./styles.css";
 
-
 interface FloatingCardProps {
   children?: React.ReactNode;
-    isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
-export const FloatingCard: React.FC<FloatingCardProps> = ({ children,isOpen,setIsOpen }) => {
-
+export const FloatingCard: React.FC<FloatingCardProps> = ({
+  children,
+  isOpen,
+  setIsOpen,
+}) => {
   const cardAnimation = useSpring({
     from: { opacity: 0, transform: "translateX(100%)" },
     to: { opacity: 1, transform: "translateX(0)" },
@@ -24,7 +26,6 @@ export const FloatingCard: React.FC<FloatingCardProps> = ({ children,isOpen,setI
 
   return (
     <>
-     
       {isOpen && (
         <animated.div
           className="floating-card"

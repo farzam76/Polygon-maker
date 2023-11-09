@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "hooks";
 import { updateProjectsPolygons } from "modules/projects/store/ProjectsReducer";
 import { PolygonEditor } from "modules/projects/components";

@@ -1,2 +1,2 @@
-export {ProjectScene} from "./ProjectScene";
-export {ProjectsList} from "./ProjectsList";
+export { ProjectScene } from "./ProjectScene";
+export { ProjectsList } from "./ProjectsList";

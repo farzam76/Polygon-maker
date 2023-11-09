@@ -53,8 +53,8 @@ const useDragAndDrop = ({
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
-    }
-  },[])
+    };
+  }, []);
   const updateSvgBoundary = useCallback(() => {
     const minX = 0;
     const minY = 0;
@@ -68,8 +68,6 @@ const useDragAndDrop = ({
     });
   }, [vertices]);
 
- 
-
   const handleMouseMove = (e: ReactMouseEvent) => {
     //e.stopPropagation();
     if (isDragging || draggingVertex) {
@@ -81,16 +79,15 @@ const useDragAndDrop = ({
         const newY = position.y + deltaY;
         const clampedX = Math.min(
           Math.max(newX, boundaries.minX),
-          boundaries.maxX
+          boundaries.maxX,
         );
         const clampedY = Math.min(
           Math.max(newY, boundaries.minY),
-          boundaries.maxY
+          boundaries.maxY,
         );
 
         editPosition({ x: clampedX, y: clampedY });
       } else if (draggingVertex) {
-        console.log("draggingVertex");
         const deltaX = e.clientX - initialMouseX;
         const deltaY = e.clientY - initialMouseY;
         const newVertexX = initialVertexX + deltaX;
@@ -98,17 +95,17 @@ const useDragAndDrop = ({
 
         const clampedX = Math.min(
           Math.max(newVertexX, boundaries.minX),
-          boundaries.maxX
+          boundaries.maxX,
         );
         const clampedY = Math.min(
           Math.max(newVertexY, boundaries.minY),
-          boundaries.maxY
+          boundaries.maxY,
         );
 
         const newVertices = vertices.map((vertex) =>
           vertex.id === draggingVertex.id
             ? { ...vertex, x: clampedX, y: clampedY }
-            : vertex
+            : vertex,
         );
         updateSvgBoundary();
         editVertices(newVertices);
@@ -127,7 +124,6 @@ const useDragAndDrop = ({
     e.stopPropagation();
     if (e.target && e.target instanceof Element) {
       const target = e.target;
-      console.log(target);
       if (target.tagName === "circle") {
         const vertexId = target.getAttribute("data-id");
         const vertex = vertices.find((v) => v.id === vertexId);
@@ -152,7 +148,13 @@ const useDragAndDrop = ({
     }
   };
 
-  return { handleClick, svgBoundaries, handleMouseMove, handleMouseUp ,updateSvgBoundary };
+  return {
+    handleClick,
+    svgBoundaries,
+    handleMouseMove,
+    handleMouseUp,
+    updateSvgBoundary,
+  };
 };
 
 export default useDragAndDrop;
