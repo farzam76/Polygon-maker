@@ -5,6 +5,35 @@ import { PolygonEditCard } from "../PolygonEditCard";
 import debounce from "lodash/debounce";
 import { useParams } from "react-router-dom";
 import { s } from "vitest/dist/reporters-5f784f42.js";
+import { on } from "events";
+
+const MutatePolygonVertices = (newSides: number, oldVertices: Vertex[], x: number, y: number) => {
+  const oldSides = oldVertices.length;
+  const angleIncrement = (2 * Math.PI) / newSides;
+  const center = { x, y };
+
+  // Create an array to store the new vertices
+  const newVertices: Vertex[] = [...oldVertices];
+  
+
+
+  // If the new number of sides is greater than the old number, add new vertices
+  if (newSides > oldSides) {
+
+    for (let i = oldSides; i < newSides; i++) {
+      const angle = i * angleIncrement;
+      const vertexX = center.x + Math.cos(angle) * 50;
+      const vertexY = center.y + Math.sin(angle) * 50;
+      newVertices.push({ x: vertexX, y: vertexY, id: genUniqueId() });
+    }
+  }
+  // If the new number of sides is less than the old number, remove vertices
+  else if (newSides < oldSides) {
+    newVertices.splice(newSides);
+  }
+
+  return newVertices;
+};
 
 const calculatePolygonVertices = (sides: number, x: number, y: number) => {
   const vertices = [];
@@ -12,8 +41,8 @@ const calculatePolygonVertices = (sides: number, x: number, y: number) => {
 
   for (let i = 0; i < sides; i++) {
     const angle = i * angleIncrement;
-    const vertexX = x + Math.cos(angle) * 50; // Adjust the radius as needed
-    const vertexY = y + Math.sin(angle) * 50; // Adjust the radius as needed
+    const vertexX = x + Math.cos(angle) * 50; 
+    const vertexY = y + Math.sin(angle) * 50; 
     vertices.push({ x: vertexX, y: vertexY, id: genUniqueId() });
   }
 
@@ -78,8 +107,8 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
     const newPolygon: Polygon = {
       id: genUniqueId(),
       sides,
-      vertices: calculatePolygonVertices(sides, 100, 100), // Adjust position as needed
-      position: { x: 0, y: 0 }, // Adjust position as needed
+      vertices: calculatePolygonVertices(sides, 100, 100), 
+      position: { x: 0, y: 0 }, 
     };
     setPolygons((prevPolygons) => [...prevPolygons, newPolygon]);
     setPolygonIdCounter(polygonIdCounter + 1);
@@ -101,7 +130,6 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
 
   const clickAwayHandler = useCallback(
     (e: ReactMouseEvent) => {
-      console.log("here")
       if (e.target === sceneContainerRef.current) {
         setSelectedPolygon(null);
       }
@@ -117,6 +145,11 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
     [polygons],
   );
 
+  const onEditSides = (id: string, sides: number) => {
+    const newVertices = MutatePolygonVertices(sides, selectedPolygon?.vertices || [], selectedPolygon?.position.x || 0, selectedPolygon?.position.y || 0)
+    editVertices(id, newVertices);
+  }
+
   return (
     <>
       <PolygonCard>
@@ -126,6 +159,7 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({
         <PolygonEditCard
           polygon={selectedPolygon}
           onEditVertices={editVertices}
+          onEditSides={onEditSides}
         />
       ) : null}
 

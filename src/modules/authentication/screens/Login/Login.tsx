@@ -12,9 +12,8 @@ export const Login: React.FC = () => {
   const isLoggedIn = useAppSelector((state) => state.authentication.isLoggedIn);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { t,i18n } = useTranslation();
+  const { t } = useTranslation();
   
-  console.log(i18n.languages)
   useEffect(() => {
     if (isLoggedIn) navigate(appRoutes.PROJECT_ROUTE);
   }, [isLoggedIn, navigate]);

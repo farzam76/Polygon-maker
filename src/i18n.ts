@@ -21,13 +21,16 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     fallbackLng: 'nl',
-    debug: true,
+    debug: process.env.NODE_ENV !== 'development',
     backend: {
         loadPath: 'src/locales/{{lng}}/{{ns}}.json',
 
     },
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
+    },
+    react:{
+        useSuspense: false
     }
   });
 

@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "hooks";
 import { logout } from "modules/authentication/screens/store/AuthenticationReducer";
 import { appRoutes } from "routes";
 import Header from "components/Header";
+import LanguageSwitcher from "layouts/components/LanguageSwitcher";
 
 export const DashboardLayout: React.FC = () => {
   const user = useAppSelector((state) => state.authentication.userData);
@@ -22,7 +23,10 @@ export const DashboardLayout: React.FC = () => {
           <div className="px-4 py-2 flex justify-between items-center">
             <button onClick={() => window.history.back()}>{"< Back"}</button>
             <h2>{user.username}</h2>
-            <button onClick={handleLogout}>Logout</button>
+            <div>
+              <button onClick={handleLogout}>Logout</button>
+              <LanguageSwitcher />
+            </div>
           </div>
         </Header>
 

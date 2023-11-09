@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
   
-  console.log(i18n.languages);
   return (
     <div className="relative inline-block text-left">
       <select

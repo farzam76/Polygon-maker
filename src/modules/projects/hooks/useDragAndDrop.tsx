@@ -49,10 +49,11 @@ const useDragAndDrop = ({
   }, [sceneContainerRef?.current]);
 
   const updateSvgBoundary = useCallback(() => {
-    const minX = Math.min(...vertices.map((v) => v.x));
-    const minY = Math.min(...vertices.map((v) => v.y));
-    const maxX = Math.max(...vertices.map((v) => v.x));
-    const maxY = Math.max(...vertices.map((v) => v.y));
+    const overHead = 10;
+    const minX = 0;
+    const minY = 0;
+    const maxX = Math.max(...vertices.map((v) => v.x))+overHead;
+    const maxY = Math.max(...vertices.map((v) => v.y))+overHead;
     setSvgBoundaries({
       minX,
       minY,
@@ -86,7 +87,7 @@ const useDragAndDrop = ({
           Math.max(newVertexY, boundaries.minY),
           boundaries.maxY,
         );
-
+        
         const newVertices = vertices.map((vertex) => {
           return vertex.id === draggingVertex.id
             ? { ...vertex, x: clampedX, y: clampedY }
