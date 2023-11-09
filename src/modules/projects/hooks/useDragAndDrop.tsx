@@ -1,37 +1,19 @@
-import React, { useState, MouseEvent, useEffect, useCallback } from "react";
-import "./styles.css";
-import { Button } from "components/Button";
+import { useState, useEffect, useCallback } from "react";
 
-interface Vertex {
-  id: string;
-  x: number;
-  y: number;
-}
-
-interface PolygonProps {
-  id: string;
-  onDelete: (id: string) => void;
-  vertices: Vertex[];
-  editVertices: (id: string, vertices: Vertex[], vertexId: string) => void;
-  editPosition: (id: string, position: { x: number; y: number }) => void;
-  position: { x: number; y: number };
+interface useDragAndDropProps {
   sceneContainerRef: React.RefObject<HTMLDivElement>;
-  handleOnClick: (id: string) => void;
-  isSelected: boolean;
-
+  vertices: Vertex[];
+  editPosition: (position: { x: number; y: number }) => void;
+  editVertices: (vertices: Vertex[]) => void;
+  position: Position;
 }
-
-export const Polygon: React.FC<PolygonProps> = ({
-  id,
-  onDelete,
-  vertices,
-  editVertices,
-  editPosition,
-  position,
+const useDragAndDrop = ({
   sceneContainerRef,
-  handleOnClick,
-  isSelected,
-}) => {
+  vertices,
+  editPosition,
+  editVertices,
+  position,
+}: useDragAndDropProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [draggingVertex, setDraggingVertex] = useState<Vertex | null>(null);
   const [initialMouseX, setInitialMouseX] = useState(0);
@@ -65,6 +47,7 @@ export const Polygon: React.FC<PolygonProps> = ({
       setSceneBoundaries({ minX, minY, maxX, maxY });
     }
   }, [sceneContainerRef?.current]);
+
   const updateSvgBoundary = useCallback(() => {
     const minX = Math.min(...vertices.map((v) => v.x));
     const minY = Math.min(...vertices.map((v) => v.y));
@@ -76,8 +59,9 @@ export const Polygon: React.FC<PolygonProps> = ({
       maxX,
       maxY,
     });
-  }, []);
-  const handleMouseMove = (e: MouseEvent) => {
+  }, [vertices]);
+
+  const handleMouseMove = (e: ReactMouseEvent) => {
     if (isDragging || draggingVertex) {
       if (isDragging) {
         const deltaX = e.movementX;
@@ -86,7 +70,7 @@ export const Polygon: React.FC<PolygonProps> = ({
         const newX = position.x + deltaX;
         const newY = position.y + deltaY;
 
-        editPosition(id, { x: newX, y: newY });
+        editPosition({ x: newX, y: newY });
       } else if (draggingVertex) {
         const deltaX = e.clientX - initialMouseX;
         const deltaY = e.clientY - initialMouseY;
@@ -95,11 +79,11 @@ export const Polygon: React.FC<PolygonProps> = ({
 
         const clampedX = Math.min(
           Math.max(newVertexX, boundaries.minX),
-          boundaries.maxX
+          boundaries.maxX,
         );
         const clampedY = Math.min(
           Math.max(newVertexY, boundaries.minY),
-          boundaries.maxY
+          boundaries.maxY,
         );
 
         const newVertices = vertices.map((vertex) => {
@@ -108,7 +92,7 @@ export const Polygon: React.FC<PolygonProps> = ({
             : vertex;
         });
 
-        editVertices(id, newVertices, draggingVertex.id);
+        editVertices(newVertices);
         updateSvgBoundary();
       }
     }
@@ -119,9 +103,9 @@ export const Polygon: React.FC<PolygonProps> = ({
     setDraggingVertex(null);
   };
 
-  const handleClick = (e: MouseEvent) => {
+  const handleClick = (e: ReactMouseEvent) => {
     if (e.target && e.target instanceof Element) {
-      const target = e.target as Element;
+      const target = e.target;
 
       if (target.tagName === "circle") {
         const vertexId = target.getAttribute("data-id");
@@ -135,7 +119,6 @@ export const Polygon: React.FC<PolygonProps> = ({
           setInitialVertexY(vertex.y);
         }
       } else {
-        
         setIsDragging(true);
         setInitialMouseX(e.clientX);
         setInitialMouseY(e.clientY);
@@ -146,54 +129,7 @@ export const Polygon: React.FC<PolygonProps> = ({
     window.addEventListener("mouseup", handleMouseUp);
   };
 
-  return (
-    <>
-    <div
-      className="draggable-polygon"
-      onMouseDown={handleClick}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      style={{
-        left: position.x + "px",
-        top: position.y + "px",
-        width: svgBoundaries.maxX + "px",
-        height: svgBoundaries.maxY + "px",
-        position: "absolute",
-      }}
-    >
-      <svg
-        viewBox="30 30 150 150"
-        id={`svg-${id}`}
-        width={svgBoundaries.maxX}
-        height={svgBoundaries.maxY}
-      >
-        <g>
-          <polygon
-            points={vertices
-              .map((vertex) => `${vertex.x},${vertex.y}`)
-              .join(" ")}
-            fill="lightblue"
-          />
-          {isSelected && (<g>
-          {vertices.map((vertex) => (
-            <circle
-              className="anchor"
-              key={vertex.id}
-              cx={vertex.x}
-              cy={vertex.y}
-              r="5"
-              fill="blue"
-              data-id={vertex.id}
-            />
-          ))}
-          </g>)}
-        </g>
-      </svg>
-      {!isSelected && (<div className="actions" aria-label="polygon-actions">
-      <Button aria-label="delete-polygon-icon" iconName="delete" onClick={() => onDelete(id)}/>
-      <Button aria-label="edit-polygon-icon" iconName="edit" onClick={() => handleOnClick(id)}/>
-      </div>)}
-    </div>
-    </>
-  );
+  return { handleClick, svgBoundaries, handleMouseMove, handleMouseUp };
 };
+
+export default useDragAndDrop;

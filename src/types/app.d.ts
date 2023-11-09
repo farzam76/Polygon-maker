@@ -1,3 +1,11 @@
+type ReactMouseEvent =
+  | React.MouseEvent<HTMLDivElement, MouseEvent>
+  | MouseEvent;
+
+interface Position {
+  x: number;
+  y: number;
+}
 interface Vertex {
   x: number;
   y: number;
@@ -8,7 +16,7 @@ interface Polygon {
   id: string;
   sides: number;
   vertices: Vertex[];
-  position: {x: number, y: number};
+  position: { x: number; y: number };
 }
 
 interface User {
@@ -16,7 +24,6 @@ interface User {
   username: string;
   password: string;
   projectIds: string[];
-
 }
 
 interface Project {
@@ -26,4 +33,3 @@ interface Project {
   timestamp: number;
   polygons: Polygon[];
 }
-

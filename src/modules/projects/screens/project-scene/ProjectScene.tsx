@@ -1,4 +1,4 @@
-import { PolygonEditor } from "../components";
+import { PolygonEditor } from "../../components";
 import { useAppDispatch, useAppSelector, useCreateSelector } from "hooks";
 import "./styles.css";
 import { updateProjectsPolygons } from "modules/projects/store/ProjectsReducer";
@@ -9,21 +9,24 @@ export const ProjectScene = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const projects = useAppSelector((state) => state.projects.projects);
-  const project  = useMemo(() => projects.find((project) => project.id === id), [
-    id,
-    projects,
-  ]);
+  const project = useMemo(
+    () => projects.find((project) => project.id === id),
+    [id, projects],
+  );
   const saveScene = useCallback(
     ({ projectId, polygons }: { polygons: Polygon[]; projectId: string }) => {
-      console.log(polygons)
-      dispatch(updateProjectsPolygons({id:projectId, polygons}));
+      console.log(polygons);
+      dispatch(updateProjectsPolygons({ id: projectId, polygons }));
     },
-    [dispatch]
+    [dispatch],
   );
-  console.log(project) 
+  console.log(project);
   return (
     <div className="scene-container">
-      <PolygonEditor project={project as unknown as Project} saveScene={saveScene} />
+      <PolygonEditor
+        project={project as unknown as Project}
+        saveScene={saveScene}
+      />
     </div>
   );
 };

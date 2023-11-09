@@ -30,9 +30,12 @@ interface PolygonEditorProps {
   project: Project;
 }
 
-export const PolygonEditor: React.FC<PolygonEditorProps> = ({ saveScene,project }) => {
+export const PolygonEditor: React.FC<PolygonEditorProps> = ({
+  saveScene,
+  project,
+}) => {
   const params = useParams();
-  const [polygons, setPolygons] = useState<Polygon[]>(project.polygons || []);
+  const [polygons, setPolygons] = useState<Polygon[]>(project?.polygons || []);
   const [polygonIdCounter, setPolygonIdCounter] = useState(0);
   const [selectedPolygon, setSelectedPolygon] = useState<Polygon | null>(null);
 
@@ -51,7 +54,7 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({ saveScene,project 
 
   const handleDeletePolygon = useCallback((id: string) => {
     setPolygons((prevPolygons) =>
-      prevPolygons.filter((polygon) => polygon.id !== id)
+      prevPolygons.filter((polygon) => polygon.id !== id),
     );
     setSelectedPolygon(null);
   }, []);
@@ -59,8 +62,8 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({ saveScene,project 
   const editVertices = useCallback((id: string, updatedVertices: Vertex[]) => {
     setPolygons((prevPolygons) =>
       prevPolygons.map((polygon) =>
-        polygon.id === id ? { ...polygon, vertices: updatedVertices } : polygon
-      )
+        polygon.id === id ? { ...polygon, vertices: updatedVertices } : polygon,
+      ),
     );
   }, []);
 
@@ -83,19 +86,19 @@ export const PolygonEditor: React.FC<PolygonEditorProps> = ({ saveScene,project 
             return { ...polygon, position };
           }
           return polygon;
-        })
+        }),
       );
     },
-    []
+    [],
   );
 
   const clickAwayHandler = useCallback(
-    (e: MouseEvent) => {
+    (e: ReactMouseEvent) => {
       if (e.target === sceneContainerRef.current) {
         setSelectedPolygon(null);
       }
     },
-    [sceneContainerRef.current]
+    [sceneContainerRef.current],
   );
 
   return (

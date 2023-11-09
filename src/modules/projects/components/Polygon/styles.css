@@ -2,12 +2,12 @@
   fill: none;
   position: absolute;
 }
-.anchor{
-    position: absolute;
+.anchor {
+  position: absolute;
 }
 
-.anchor-point{
-    position: absolute;
+.anchor-point {
+  position: absolute;
 }
 
 .anchor:hover {
@@ -20,10 +20,9 @@
   top: 0;
   right: 0;
   z-index: 90;
-  
 }
 
-.draggable-polygon:hover .actions{
+.draggable-polygon:hover .actions {
   display: block;
 }
 
@@ -34,4 +33,3 @@
 .actions button :nth-last-child(1) {
   margin-left: 10px;
 }
-

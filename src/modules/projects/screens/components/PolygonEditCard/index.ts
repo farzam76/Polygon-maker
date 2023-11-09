@@ -1,1 +1,0 @@
-export {PolygonEditCard} from './PolygonEditCard'

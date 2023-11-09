@@ -13,7 +13,7 @@ export type GlobalInitialState = {
 const initialState: GlobalInitialState = {
   theme: Theme.Dark,
   users: [],
-  projects: []
+  projects: [],
 };
 
 export const issueSlice = createSlice({
@@ -40,9 +40,13 @@ export const issueSlice = createSlice({
     updateGlobalProjects(state, action) {
       state.projects = action.payload;
     },
-
   },
 });
 
-export const { addGlobalUser,changeTheme,updateGlobalUser,updateGlobalProjects } = issueSlice.actions;
+export const {
+  addGlobalUser,
+  changeTheme,
+  updateGlobalUser,
+  updateGlobalProjects,
+} = issueSlice.actions;
 export default issueSlice.reducer;

@@ -77,7 +77,9 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       {...rest}
-      className={`${className} flex items-center justify-center gap-2  ${!iconName && 'bg-blue-500'}  rounded-md`}
+      className={`${className} flex items-center justify-center gap-2  ${
+        !iconName && "bg-blue-500"
+      }  rounded-md`}
     >
       {iconName && getIcon(iconName)}
       {children}

@@ -1,8 +1,6 @@
-.projects-container{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    
+.projects-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
 }
-

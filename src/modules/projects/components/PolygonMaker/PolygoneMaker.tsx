@@ -37,14 +37,23 @@ export const PolygonMaker: React.FC<PolygonMakerProps> = ({
     <div className="polygon-maker">
       <h2>Polygons</h2>
       <label htmlFor="polygon-select">Select a polygon:</label>
-      <select id="polygon-select" value={selectedPolygon.name} onChange={handlePolygonChange}>
+      <select
+        id="polygon-select"
+        value={selectedPolygon.name}
+        onChange={handlePolygonChange}
+      >
         {polygonList.map((polygon) => (
           <option key={polygon.name} value={polygon.name}>
             {polygon.name} ({polygon.sides} sides)
           </option>
         ))}
       </select>
-      <button className="text-gray-600 hover:text-red-500 focus:outline-none" onClick={handleCreatePolygon}>Create Polygon</button>
+      <button
+        className="text-gray-600 hover:text-red-500 focus:outline-none"
+        onClick={handleCreatePolygon}
+      >
+        Create Polygon
+      </button>
     </div>
   );
 };

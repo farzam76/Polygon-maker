@@ -3,6 +3,8 @@ import { AuthLayout, DashboardLayout } from "layouts";
 import { Login, CreateAccount } from "modules/authentication/screens";
 import { ProjectsList } from "modules/projects/screens/projects-list";
 import { ProjectScene } from "modules/projects/screens/project-scene";
+import PrivateRoute from "PrivateRoute";
+//TODO: FIX THIS
 export default function Router() {
   const element = useRoutes([
     {
@@ -15,7 +17,7 @@ export default function Router() {
     {
       element: <DashboardLayout />,
       children: [
-        { path: "/app", element: <ProjectsList /> },
+        { path: "/app", element: <PrivateRoute element={<ProjectsList />} /> },
         { path: "/:id", element: <ProjectScene /> },
       ],
     },
