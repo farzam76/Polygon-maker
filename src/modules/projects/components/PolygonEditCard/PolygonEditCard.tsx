@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./styles.css";
 interface EditableCardProps {
   polygon: Polygon;
-  onEditVertices: (vertices: Vertex[]) => void;
-  onEditSides: (sides: number) => void;
+  onEditVertices: (id:string,vertices: Vertex[]) => void;
+  onEditSides?: (sides: number) => void;
 }
 
 export const PolygonEditCard: React.FC<EditableCardProps> = ({
@@ -25,7 +25,7 @@ export const PolygonEditCard: React.FC<EditableCardProps> = ({
   };
 
   const handleSave = () => {
-    onEditVertices([...editingVertices]);
+    onEditVertices(polygon.id,[...editingVertices]);
     //onEditSides(editingSides);
   };
 

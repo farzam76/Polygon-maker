@@ -1,5 +1,5 @@
 import { PolygonEditor } from "../../components";
-import { useAppDispatch, useAppSelector, useCreateSelector } from "hooks";
+import { useAppDispatch, useAppSelector } from "hooks";
 import "./styles.css";
 import { updateProjectsPolygons } from "modules/projects/store/ProjectsReducer";
 import { useCallback, useMemo } from "react";

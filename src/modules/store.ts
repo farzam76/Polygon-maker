@@ -65,19 +65,4 @@ export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export type AppSelector<Return> = (state: RootState) => Return;
-export const createAppSelector = <R>(
-  ...selectors: [
-    ...AppSelector<R>[],
-    (...args: R[]) => R,
-    CreateSliceOptions<
-      [
-        equalityCheckOrOptions?:
-          | EqualityFn
-          | DefaultNormalizerOptions
-          | undefined,
-      ]
-    >,
-  ]
-): AppSelector<R> => {
-  return createSelector(...selectors);
-};
+
