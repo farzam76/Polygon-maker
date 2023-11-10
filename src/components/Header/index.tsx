@@ -1,6 +1,14 @@
-export default function Header({ children }: { children: React.ReactNode }) {
+export default function Header({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <header className="w-full flex-shrink-0 bg-white border-b border-gray-200">
+    <header
+      className={`${className} w-full flex-shrink-0 bg-white border-b  border-gray-200`}
+    >
       {children}
     </header>
   );

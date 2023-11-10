@@ -5,15 +5,11 @@
   "signup": {
     "header": "Signup"
   },
-  "general":{
-      "header":"Welcom"
+  "general": {
+    "header": "Welcom"
   },
-  "projetcScene":{
-    "addPolygon":"Add Polygon"
-
+  "projetcScene": {
+    "addPolygon": "Add Polygon"
   },
-  "projetcList":{
-
-  }
-
+  "projetcList": {}
 }

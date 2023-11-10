@@ -5,14 +5,11 @@
   "signup": {
     "header": "Signup"
   },
-  "general":{
-    "header":"Welkom"
+  "general": {
+    "header": "Welkom"
   },
-  "projetcScene":{
-    "addPolygon":"polygoon toevoegen"
-
+  "projetcScene": {
+    "addPolygon": "polygoon toevoegen"
   },
-  "projetcList":{
-
-  }
+  "projetcList": {}
 }

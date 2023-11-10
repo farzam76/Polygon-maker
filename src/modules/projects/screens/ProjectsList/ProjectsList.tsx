@@ -47,7 +47,7 @@ export const ProjectsList = () => {
       </Button>
       <div className="projects-container p-4 flex flex-row items-center gap-10">
         {userProjects.length > 0 &&
-          userProjects.map((project,index) => (
+          userProjects.map((project, index) => (
             <Link
               key={project.id}
               to={`${appRoutes.PROJECT_ROUTE}/${project.id}`}
@@ -55,7 +55,9 @@ export const ProjectsList = () => {
               <div className="max-w-sm rounded overflow-hidden bg-white relative">
                 <div className="shadow-lg border border-transparent group">
                   <div className="px-6 py-4">
-                    <h2 className="text-xl font-bold mb-2">{project.name}#{index}</h2>
+                    <h2 className="text-xl font-bold mb-2">
+                      {project.name}#{index}
+                    </h2>
                     <p className="text-gray-700 text-base">
                       {project.description}
                     </p>
