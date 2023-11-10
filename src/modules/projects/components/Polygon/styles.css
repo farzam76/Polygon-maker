@@ -1,0 +1,35 @@
+.polygon {
+  fill: none;
+  position: absolute;
+}
+.anchor {
+  position: absolute;
+}
+
+.anchor-point {
+  position: fixed;
+}
+
+.anchor:hover {
+  fill: red;
+}
+
+.actions {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 90;
+}
+
+.draggable-polygon:hover .actions {
+  display: block;
+}
+
+.actions button {
+  display: inline-block;
+}
+
+.actions button :nth-last-child(1) {
+  margin-left: 10px;
+}

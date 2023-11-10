@@ -32,7 +32,7 @@ const EmptyAvatar = ({ size = "medium" }: Pick<AvatarProps, "size">) => (
   </span>
 );
 
-export default function Avatar({ size = "medium", src, alt }: AvatarProps) {
+export const Avatar = ({ size = "medium", src, alt }: AvatarProps) => {
   if (!src) {
     return <EmptyAvatar size={size} />;
   }

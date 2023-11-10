@@ -1,12 +1,8 @@
-![reactjs-vite-tailwindcss-boilerplate](https://user-images.githubusercontent.com/16243531/217138979-b854309c-4742-4275-a705-f9fec5158217.jpg)
+# Polygon Maker
 
-# React Tailwindcss Boilerplate build with Vite
+The Polygon Maker App allows users to create and customize polygons by specifying the vertices and sides of the shape. It provides an interactive interface for dragging vertices and adjusting the polygon's position within a scene.
 
-This is a boilerplate build with Vite, React 18, TypeScript, Vitest, Testing Library, TailwindCSS 3, Eslint and Prettier.
-
-## What is inside?
-
-This project uses many tools like:
+## Tech Stack:
 
 - [Vite](https://vitejs.dev)
 - [ReactJS](https://reactjs.org)
@@ -16,65 +12,64 @@ This project uses many tools like:
 - [Tailwindcss](https://tailwindcss.com)
 - [Eslint](https://eslint.org)
 - [Prettier](https://prettier.io)
+- [Redux-toolkit](https://redux-toolkit.js.org/)
+
+## Features
+
+- Create polygons with a customizable number of sides.
+- Drag and drop vertices to shape the polygon interactively.
+- Edit the number of sides for dynamic polygon adjustment.
+- Simple JSON lookup User managemnt system
+- User Specific workspace
+
+- User-friendly interface with intuitive controls.
+
+## What's not working :\(
+
+- Dragging the vertex. to the left and top of the screen does not resize the SVG bounds
+- Right and bottom bounds of the Scene are not working properly
+- No mobile support as of now
+
+## What's next :\)
+
+- add more translations
+- Adding more tests
+- Adding stroybook
+
+## Supported Browsers
+
+anything that supports SVG and ES6 (Not IE)
 
 ## Getting Started
 
-### Install
+These instructions will help you set up and run the Polygon Maker App on your local machine.
 
-Create the project.
+### Prerequisites
 
-```bash
-npx degit joaopaulomoraes/reactjs-vite-tailwindcss-boilerplate my-app
-```
+- Node.js: Ensure that Node.js is installed on your machine. You can download it [here](https://nodejs.org/).
 
-Access the project directory.
+### Installation
 
-```bash
-cd my-app
-```
+1. Clone the repository:
 
-Install dependencies.
+   ```bash
+   git clone https://github.com/farzam76/polygon-maker-app.git
+   ```
 
-```bash
-pnpm install
-```
+2. Navigate to the project directory:
 
-Serve with hot reload at <http://localhost:5173>.
+   ```bash
+   cd polygon-maker-app
+   ```
 
-```bash
-pnpm run dev
-```
+3. Install the dependencies:
 
-### Lint
+   ```bash
+    yarn install
+   ```
 
-```bash
-pnpm run lint
-```
+4. Run the app:
 
-### Typecheck
-
-```bash
-pnpm run typecheck
-```
-
-### Build
-
-```bash
-pnpm run build
-```
-
-### Test
-
-```bash
-pnpm run test
-```
-
-View and interact with your tests via UI.
-
-```bash
-pnpm run test:ui
-```
-
-## License
-
-This project is licensed under the MIT License.
+   ```bash
+    yarn run dev
+   ```

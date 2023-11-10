@@ -1,0 +1,11 @@
+.dismiss-button {
+  margin-top: 10px;
+  background-color: #f0f0f0;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}

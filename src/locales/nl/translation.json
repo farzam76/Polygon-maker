@@ -1,0 +1,15 @@
+{
+  "login": {
+    "header": "Inloggen"
+  },
+  "signup": {
+    "header": "Signup"
+  },
+  "general": {
+    "header": "Welkom"
+  },
+  "projetcScene": {
+    "addPolygon": "polygoon toevoegen"
+  },
+  "projetcList": {}
+}
