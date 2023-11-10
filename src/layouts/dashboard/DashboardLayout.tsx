@@ -1,13 +1,12 @@
 import React from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "hooks";
+import { useTranslation } from "react-i18next";
+import {Header,Avatar,Button} from "components";
+import LanguageSwitcher from "layouts/components/LanguageSwitcher";
 import { logout } from "modules/authentication/screens/store/AuthenticationReducer";
 import { appRoutes } from "routes";
-import Header from "components/Header";
-import LanguageSwitcher from "layouts/components/LanguageSwitcher";
-import { Button } from "components/Button";
-import { useTranslation } from "react-i18next";
-import Avatar from "components/Avatar";
+import { useAppDispatch, useAppSelector } from "hooks";
+
 
 export const DashboardLayout: React.FC = () => {
   const user = useAppSelector((state) => state.authentication.userData);

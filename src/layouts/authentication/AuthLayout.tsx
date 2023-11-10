@@ -1,4 +1,4 @@
-import Header from "components/Header";
+import {Header} from "components";
 import LanguageSwitcher from "layouts/components/LanguageSwitcher";
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
