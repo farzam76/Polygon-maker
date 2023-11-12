@@ -21,7 +21,6 @@ The Polygon Maker App allows users to create and customize polygons by specifyin
 - Edit the number of sides for dynamic polygon adjustment.
 - Simple JSON lookup User managemnt system
 - User Specific workspace
-
 - User-friendly interface with intuitive controls.
 
 ## What's not working :\(
@@ -31,7 +30,7 @@ The Polygon Maker App allows users to create and customize polygons by specifyin
 - No mobile support as of now
 
 ## What's next :\)
-
+- some parts could use a better structure or refactoring.
 - add more translations
 - Adding more tests
 - Adding stroybook
